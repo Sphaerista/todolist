@@ -10,11 +10,15 @@ export interface DialogProps {
   todo: Todo;
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  newTagName: string;
-  setNewTagName: React.Dispatch<React.SetStateAction<string>>;
-  sameName: string;
-  removeTagHandler: (deleteId: number, deleteTag: string) => void;
-  addTagHandler: (id: number, tag: string) => void;
+  newName: string;
+  setNewName: React.Dispatch<React.SetStateAction<string>>;
+  sameName?: string;
+  removeHandler?: (deleteId: number, deleteTag: string) => void;
+  addHandler: (id: number, tag: string) => void;
+  label_button: string;
+  header: string;
+  placeholder: string;
+  addSubtaskHandler?: (id: number, subtaskText: string) => void;
 }
 
 const Dialog: React.FC<DialogProps> = (props) => {
@@ -22,11 +26,15 @@ const Dialog: React.FC<DialogProps> = (props) => {
     todo,
     visible,
     setVisible,
-    newTagName,
-    setNewTagName,
+    newName,
+    setNewName,
     sameName,
-    removeTagHandler,
-    addTagHandler,
+    removeHandler,
+    addHandler,
+    label_button,
+    header,
+    placeholder,
+    addSubtaskHandler,
   } = props;
 
   const { todos } = useTodoContext();
@@ -34,12 +42,12 @@ const Dialog: React.FC<DialogProps> = (props) => {
   return (
     <>
       <Button
-        label="+ tag"
+        label={label_button}
         icon="pi pi-external-link"
         onClick={() => setVisible(true)}
       />
       <Dial
-        header="Add tag"
+        header={header}
         visible={visible}
         draggable={false}
         resizable={false}
@@ -48,16 +56,24 @@ const Dialog: React.FC<DialogProps> = (props) => {
       >
         <InputText
           type="text"
-          value={newTagName}
-          onChange={(e) => setNewTagName(e.target.value)}
-          placeholder="Enter Tag..."
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          placeholder={placeholder}
         />
         {sameName && <Message severity="error" text={sameName} />}
-        <Button
-          icon="pi pi-tags"
-          label="Add"
-          onClick={() => addTagHandler(todo.id, newTagName)}
-        />
+        {addSubtaskHandler ? (
+          <Button
+            icon="pi pi-tags"
+            label="Add sb"
+            onClick={() => addSubtaskHandler(todo.id, newName)}
+          />
+        ) : (
+          <Button
+            icon="pi pi-tags"
+            label="Add tg"
+            onClick={() => addHandler(todo.id, newName)}
+          />
+        )}
       </Dial>
       {/* tag dialog */}
     </>
