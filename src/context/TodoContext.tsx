@@ -19,12 +19,17 @@ export interface Todo {
 interface TodoContextProps {
   todos: Todo[];
   addTodo: (text: string, depth: number) => void;
+  removeTodo: (id: number) => void;
   toggleTodo: (id: number) => void;
   addTag: (id: number, tag: string) => void;
   deleteTag: (deleteId: number, deleteTag: string) => void;
+  addSubtask: (id: number, text: string) => void;
+  removeSubtask: (parentId: number, id: number) => void;
 }
 
 const TodoContext = createContext<TodoContextProps | undefined>(undefined);
+
+const MAX_DEPTH = 3; // Set maximum depth limit
 
 const todoReducer = (
   state: Todo[],
@@ -44,6 +49,9 @@ const todoReducer = (
           subtasks: [],
         },
       ];
+    case "REMOVE_TODO":
+      const { removeId } = action.payload;
+      return state.filter((todo) => todo.id !== removeId);
     case "TOGGLE_TODO":
       return state.map((todo) =>
         todo.id === action.payload
@@ -55,15 +63,54 @@ const todoReducer = (
 
     //   tags
     case "ADD_TAG":
-      const { id, tag } = action.payload;
+      const { idTag, tag } = action.payload;
       return state.map((todo) =>
-        todo.id === id ? { ...todo, tags: [...(todo.tags || []), tag] } : todo
+        todo.id === idTag
+          ? { ...todo, tags: [...(todo.tags || []), tag] }
+          : todo
       );
     case "DELETE_TAG":
       const { deleteId, deleteTag } = action.payload;
       return state.map((todo) =>
         todo.id === deleteId
           ? { ...todo, tags: (todo.tags || []).filter((t) => t !== deleteTag) }
+          : todo
+      );
+
+    //   subtasks
+    case "ADD_SUBTASK":
+      const { idSub, subtaskText } = action.payload;
+      return state.map((todo) =>
+        todo.id === idSub
+          ? {
+              ...todo,
+              subtasks:
+                todo.depth < MAX_DEPTH
+                  ? [
+                      ...(todo.subtasks || []),
+                      {
+                        id: Date.now(),
+                        text: subtaskText,
+                        completed: false,
+                        depth: todo.depth + 1,
+                        tags: [],
+                        subtasks: [],
+                      },
+                    ]
+                  : todo.subtasks, // Don't exceed the depth limit
+            }
+          : todo
+      );
+    case "REMOVE_SUBTASK":
+      const { parentId, removeSubtaskId } = action.payload;
+      return state.map((todo) =>
+        todo.id === parentId
+          ? {
+              ...todo,
+              subtasks: (todo.subtasks || []).filter(
+                (subtask) => subtask.id !== removeSubtaskId
+              ),
+            }
           : todo
       );
 
@@ -107,22 +154,45 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
     // Dispatch the ADD_TODO action
     dispatch({ type: "ADD_TODO", payload: { text, depth } });
   };
+  const removeTodo = (removeId: number) => {
+    dispatch({ type: "REMOVE_TODO", payload: { removeId } });
+  };
 
   const toggleTodo = (id: number) => {
     dispatch({ type: "TOGGLE_TODO", payload: id });
   };
 
   //   tags
-  const addTag = (id: number, tag: string) => {
-    dispatch({ type: "ADD_TAG", payload: { id, tag } });
+  const addTag = (idTag: number, tag: string) => {
+    dispatch({ type: "ADD_TAG", payload: { idTag, tag } });
   };
   const deleteTag = (deleteId: number, deleteTag: string) => {
     dispatch({ type: "DELETE_TAG", payload: { deleteId, deleteTag } });
   };
 
+  //   subtasks
+  const addSubtask = (idSub: number, subtaskText: string) => {
+    dispatch({ type: "ADD_SUBTASK", payload: { idSub, subtaskText } });
+  };
+  const removeSubtask = (parentId: number, removeSubtaskId: number) => {
+    dispatch({
+      type: "REMOVE_SUBTASK",
+      payload: { parentId, removeSubtaskId },
+    });
+  };
+
   return (
     <TodoContext.Provider
-      value={{ todos, addTodo, toggleTodo, addTag, deleteTag }}
+      value={{
+        todos,
+        addTodo,
+        removeTodo,
+        toggleTodo,
+        addTag,
+        deleteTag,
+        addSubtask,
+        removeSubtask,
+      }}
     >
       {children}
     </TodoContext.Provider>
