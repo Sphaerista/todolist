@@ -19,12 +19,12 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   const { addTag, toggleTodo, deleteTag, addSubtask, removeTodo } =
     useTodoContext();
 
-  // add tag
   const [visibleTag, setVisibleTag] = useState<boolean>(false);
   const [visibleSubtask, setVisibleSubtask] = useState<boolean>(false);
   const [newTagName, setNewTagName] = useState<string>("");
   const [newSubTaskName, setNewSubTaskName] = useState<string>("");
   const [sameName, setSameName] = useState<string>("");
+  const [sameSubTaskName, setSameSubTaskName] = useState<string>("");
 
   // handlers
   const removeTodoHandler = (id: number) => {
@@ -51,7 +51,6 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     }
   };
   const removeTagHandler = (id: number, tag: string) => {
-    // console.log(id, tag);
     deleteTag(id, tag);
   };
 
@@ -60,30 +59,14 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   };
 
   const addSubtaskHandler = (id: number, subtaskText: string) => {
-    addSubtask(id, subtaskText);
-    setVisibleSubtask(false);
-    setNewSubTaskName("");
+    if (newSubTaskName.length > 0) {
+      addSubtask(id, subtaskText);
+      setVisibleSubtask(false);
+      setSameSubTaskName("");
+    } else {
+      setSameSubTaskName("Subtask can not be empty");
+    }
   };
-
-  // const renderz = todoArray.map((item) => (
-  //   <div className="todoItem" key={item.id}>
-  //     <input
-  //       type="checkbox"
-  //       className="rounded-checkbox"
-  //       id="checkbox"
-  //       checked={item.completed}
-  //       onChange={() => checkHandler(item.id)}
-  //     />
-  //     <label htmlFor="checkbox"></label>
-  //     <div
-  //       className={
-  //         item.completed ? "todoItem-completed" : "todoItem-incomplete"
-  //       }
-  //     >
-  //       {item.text}
-  //     </div>
-  //   </div>
-  // ));
 
   return (
     <li className="todo-item" key={todo.id}>
@@ -125,34 +108,11 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
           {todo.completed ? "untoggle" : "toggle"}
         </Button>
 
-        {/* task dialog */}
-        {/* <Button
-        label="+ subtask"
-        icon="pi pi-external-link"
-        onClick={() => setVisible(true)}
-      ></Button>
-      <Dialog
-        header="Add subtask"
-        visible={visible}
-        draggable={false}
-        resizable={false}
-        style={{ width: "50vw" }}
-        onHide={() => setVisible(false)}
-      >
-        <InputText
-          type="text"
-          value={newSubTaskName}
-          onChange={(e) => setNewSubTaskName(e.target.value)}
-          placeholder="Enter Subtask..."
-        />
-        <Button onClick={() => addSubtaskHandler(todo.id, newSubTaskName)}>
-          Add
-        </Button>
-      </Dialog> */}
         <Dialog
           addSubtaskHandler={addSubtaskHandler}
           addHandler={addTagHandler}
           newName={newSubTaskName}
+          sameName={sameSubTaskName}
           removeHandler={removeTagHandler}
           setNewName={setNewSubTaskName}
           setVisible={setVisibleSubtask}
@@ -162,7 +122,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
           header={"Add subtask"}
           placeholder={"Enter Subtask..."}
         />
-        {/* task dialog */}
+
         <Button
           icon="pi pi-trash"
           label="REMOVE"

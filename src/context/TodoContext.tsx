@@ -31,6 +31,47 @@ const TodoContext = createContext<TodoContextProps | undefined>(undefined);
 
 const MAX_DEPTH = 3; // Set maximum depth limit
 
+// Helper function to recursively update a todo item
+const updateTodoItem = (
+  todos: Todo[],
+  id: number,
+  updateFunction: (todo: Todo) => Todo
+): Todo[] => {
+  return todos.map((todo) => {
+    if (todo.id === id) {
+      console.log("func in todo", id);
+      // If the current todo matches the ID, apply the update function
+      return updateFunction(todo);
+    } else if (todo.subtasks) {
+      console.log("func in sub", id);
+      // If the current todo has subtasks, recursively update them
+      return {
+        ...todo,
+        subtasks: updateTodoItem(todo.subtasks, id, updateFunction),
+      };
+    } else {
+      // Otherwise, return the todo unchanged
+      return todo;
+    }
+  });
+};
+
+// Helper function to check if all subtasks are completed and update the main todo accordingly
+const checkAllSubtasks = (todos: Todo[]): Todo[] => {
+  return todos.map((todo) => {
+    if (todo.subtasks) {
+      // If the current todo has subtasks, check if all of them are completed
+      const allSubtasksCompleted = todo.subtasks.every(
+        (subtask) => subtask.completed
+      );
+      return { ...todo, completed: allSubtasksCompleted };
+    } else {
+      // Otherwise, return the todo unchanged
+      return todo;
+    }
+  });
+};
+
 const todoReducer = (
   state: Todo[],
   action: { type: string; payload?: any }
@@ -54,11 +95,20 @@ const todoReducer = (
       return state.filter((todo) => todo.id !== removeId);
 
     case "TOGGLE_TODO":
-      return state.map((todo) =>
-        todo.id === action.payload
-          ? { ...todo, completed: !todo.completed }
-          : todo
-      );
+      //   return state.map((todo) =>
+      //     todo.id === action.payload
+      //       ? { ...todo, completed: !todo.completed }
+      //       : todo
+      //   );
+      let toggleId = action.payload;
+      console.log("ctx", toggleId);
+      let updatedTodos = updateTodoItem(state, toggleId, (todo) => ({
+        ...todo,
+        completed: !todo.completed,
+      }));
+      // Check if all subtasks are completed, update the main todo accordingly
+      return checkAllSubtasks(updatedTodos);
+
     case "LOAD_TODOS":
       return action.payload;
 
@@ -159,8 +209,9 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "REMOVE_TODO", payload: { removeId } });
   };
 
-  const toggleTodo = (id: number) => {
-    dispatch({ type: "TOGGLE_TODO", payload: id });
+  const toggleTodo = (toggleId: number) => {
+    console.log("ctx toogle", toggleId);
+    dispatch({ type: "TOGGLE_TODO", payload: toggleId });
   };
 
   //   tags
