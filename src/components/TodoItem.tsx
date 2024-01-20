@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import "./TodoItem.css";
 import { Todo, useTodoContext } from "../context/TodoContext";
 import SubTask from "./SubTask";
 import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
+import { Dialog as Dial } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Message } from "primereact/message";
+import Dialog from "./Dialog";
+import { Tag } from "primereact/tag";
+import { Badge } from "primereact/badge";
 
 export interface TodoItemProps {
   todo: Todo;
@@ -18,6 +22,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   // add tag
   const [visible, setVisible] = useState<boolean>(false);
   const [newTagName, setNewTagName] = useState<string>("");
+  const [newSubTaskName, setNewSubTaskName] = useState<string>("");
   const [sameName, setSameName] = useState<string>("");
 
   // handlers
@@ -78,29 +83,53 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   // ));
 
   return (
-    <div>
-      <div>{todo.text}</div>
-      {todo.completed && <div>completed</div>}
-      <p>depth:{todo.depth}</p>
-      {todo.tags &&
-        todo.tags.map((tag) => (
-          <div>
-            <div>{tag}</div>
-            <Button onClick={() => removeTagHandler(todo.id, tag)}>
-              - sub
-            </Button>
+    <li className="todo-item" key={todo.id}>
+      <div>
+        <div className="title_and_tags">
+          <div className={todo.completed ? "text-completed" : "text"}>
+            {todo.text}
           </div>
-        ))}
-      {todo.subtasks.length > 0 && <SubTask todo={todo} />}
+          {todo.tags &&
+            todo.tags.map((tag) => (
+              <div>
+                <Badge size="large" severity="warning" value={tag} />
+                <Button
+                  size="small"
+                  label="x"
+                  severity="danger"
+                  onClick={() => removeTagHandler(todo.id, tag)}
+                />
+              </div>
+            ))}
+        </div>
+        <p>depth:{todo.depth}</p>
+        {todo.subtasks.length > 0 && <SubTask todo={todo} />}
 
-      {/* dialog */}
-      <Button
-        label="+ tag"
+        {/* tag dialog */}
+        <Dialog
+          addTagHandler={addTagHandler}
+          newTagName={newTagName}
+          removeTagHandler={removeTagHandler}
+          sameName={sameName}
+          setNewTagName={setNewTagName}
+          setVisible={setVisible}
+          todo={todo}
+          visible={visible}
+        />
+        {/* tag dialog */}
+
+        <Button onClick={() => addToggleHandler(todo.id)}>
+          {todo.completed ? "untoggle" : "toggle"}
+        </Button>
+
+        {/* task dialog */}
+        {/* <Button
+        label="+ subtask"
         icon="pi pi-external-link"
         onClick={() => setVisible(true)}
-      />
+      ></Button>
       <Dialog
-        header="Header"
+        header="Add subtask"
         visible={visible}
         draggable={false}
         resizable={false}
@@ -109,31 +138,22 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
       >
         <InputText
           type="text"
-          value={newTagName}
-          onChange={(e) => setNewTagName(e.target.value)}
-          placeholder="Enter Tag Name"
+          value={newSubTaskName}
+          onChange={(e) => setNewSubTaskName(e.target.value)}
+          placeholder="Enter Subtask..."
         />
-        {sameName && <Message severity="error" text={sameName} />}
-        <Button onClick={() => addTagHandler(todo.id, newTagName)}>
-          Add Tag
+        <Button onClick={() => addSubtaskHandler(todo.id, newSubTaskName)}>
+          Add
         </Button>
-      </Dialog>
-      {/* dialog */}
-
-      {todo.tags.length > 0 && (
-        <Button onClick={() => removeTagHandler(todo.id, "new tag")}>
-          - tag
-        </Button>
-      )}
-
-      <Button onClick={() => addToggleHandler(todo.id)}>
-        {todo.completed ? "untoggle" : "toggle"}
-      </Button>
-      <Button onClick={() => addSubtaskHandler(todo.id, "newsubtask")}>
-        + subtask
-      </Button>
-      <Button onClick={() => removeTodoHandler(todo.id)}>REMOVE</Button>
-    </div>
+      </Dialog> */}
+        {/* task dialog */}
+        <Button
+          icon="pi pi-trash"
+          label="REMOVE"
+          onClick={() => removeTodoHandler(todo.id)}
+        />
+      </div>
+    </li>
   );
 };
 

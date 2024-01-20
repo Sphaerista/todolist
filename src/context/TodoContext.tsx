@@ -52,6 +52,7 @@ const todoReducer = (
     case "REMOVE_TODO":
       const { removeId } = action.payload;
       return state.filter((todo) => todo.id !== removeId);
+
     case "TOGGLE_TODO":
       return state.map((todo) =>
         todo.id === action.payload
