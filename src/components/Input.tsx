@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useTodoContext } from "../context/TodoContext";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 
 const Input = () => {
   const [input, setInput] = useState("");
@@ -14,13 +16,13 @@ const Input = () => {
   };
   return (
     <div className="input">
-      <input
+      <InputText
         type="text"
         value={input}
         placeholder="Add todo..."
         onChange={(e) => setInput(e.target.value)}
       />
-      <button onClick={handleAddTodo}>Add todo</button>
+      <Button onClick={handleAddTodo}>+</Button>
     </div>
   );
 };
