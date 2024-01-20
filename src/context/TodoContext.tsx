@@ -1,4 +1,10 @@
-import React, { createContext, useContext, ReactNode, useReducer } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useReducer,
+  useEffect,
+} from "react";
 
 interface TodoItem {
   id: number;
@@ -30,6 +36,8 @@ const todoReducer = (
           text: action.payload.text,
           completed: false,
           depth: action.payload.depth,
+          tags: [],
+          subtasks: [],
         },
       ];
     case "TOGGLE_TODO":
@@ -38,6 +46,8 @@ const todoReducer = (
           ? { ...todo, completed: !todo.completed }
           : todo
       );
+    case "LOAD_TODOS":
+      return action.payload;
     default:
       return state;
   }
@@ -48,7 +58,26 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [todos, dispatch] = useReducer(todoReducer, []);
 
+  useEffect(() => {
+    // Load todos from localStorage on component mount
+    const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
+    dispatch({ type: "LOAD_TODOS", payload: storedTodos });
+  }, []);
+
   const addTodo = (text: string, depth: number) => {
+    // Add the new todo to the existing todos
+    const newTodo = {
+      id: Date.now(),
+      text,
+      completed: false,
+      depth,
+      tags: [],
+      subtasks: [],
+    };
+    const updatedTodos = [...todos, newTodo];
+    // Save the updated todos to localStorage
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    // Dispatch the ADD_TODO action
     dispatch({ type: "ADD_TODO", payload: { text, depth } });
   };
 
