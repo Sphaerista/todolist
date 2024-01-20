@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useTodoContext, Todo } from "../context/TodoContext";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import SubTaskSq from "./SubTaskSq";
+import { Badge } from "primereact/badge";
+import Dialog from "./Dialog";
+import SubItemSq from "./SubItemSq";
 
 interface SubTaskProps {
   todo: Todo;
@@ -9,55 +13,47 @@ interface SubTaskProps {
 
 const SubTask: React.FC<SubTaskProps> = (props) => {
   const { todo } = props;
-  const [newTaskNames, setNewTaskNames] = useState(
-    Array(todo.subtasks.length).fill("")
-  );
-  const [showInputs, setShowInputs] = useState(
-    Array(todo.subtasks.length).fill(false)
-  );
-  const { removeSubtask, toggleTodo, addSubtask } = useTodoContext();
-  console.log(todo.subtasks);
+  const { removeSubtask, toggleTodo, deleteTag } = useTodoContext();
 
   const removeSubTaskHandler = (parentId: number, id: number) => {
     removeSubtask(parentId, id);
   };
 
   const addToggleHandler = (id: number) => {
-    console.log("subtask", id);
     toggleTodo(id);
   };
 
-  const addSubTaskHandler = (id: number, index: number) => {
-    // addSubtask(id, newTaskName);
-    //   setShowInputs((prev) => !prev);
-    //   setNewTaskNames("");
-    console.log(id, newTaskNames[index]);
-    // let value = newTaskNames[index]
-    const updatedTaskNames = [...newTaskNames];
-    updatedTaskNames[index] = "";
-    setNewTaskNames(updatedTaskNames);
-  };
-
-  const handleInputChange = (index: any, value: any) => {
-    const updatedTaskNames = [...newTaskNames];
-    updatedTaskNames[index] = value;
-    setNewTaskNames(updatedTaskNames);
-  };
-
-  const handleToggleInput = (index: number) => {
-    const updatedShowInputs = [...showInputs];
-    updatedShowInputs[index] = !updatedShowInputs[index];
-    setShowInputs(updatedShowInputs);
+  //   tags
+  const removeTagHandler = (id: number, tag: string) => {
+    console.log("task", id, tag);
+    // deleteTag(id, tag);
   };
 
   return (
     <ul>
-      {todo.subtasks.map((subtask, index) => (
-        <li key={subtask.id}>
+      {todo.subtasks.map((subtask) => (
+        <li className="main_li" key={subtask.id}>
           <div className="title_and_tags">
             <div className={subtask.completed ? "text-completed" : "text"}>
               {subtask.text}
             </div>
+          </div>
+          {subtask.tags &&
+            subtask.tags.map((tag) => (
+              <div>
+                <Badge size="large" severity="warning" value={tag} />
+                <Button
+                  size="small"
+                  label="x"
+                  severity="danger"
+                  onClick={() => removeTagHandler}
+                />
+              </div>
+            ))}
+          <div className="input_task">
+            <SubTaskSq subtask={subtask} />
+          </div>
+          <div className="subtsksq_fl">
             <span>depth: {subtask.depth}</span>
             <Button onClick={() => addToggleHandler(subtask.id)}>
               {subtask.completed ? "untoggle" : "toggle"}
@@ -65,28 +61,6 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
             <Button onClick={() => removeSubTaskHandler(todo.id, subtask.id)}>
               - sub
             </Button>
-          </div>
-          <div className="input_task">
-            {subtask.subtasks.length < 1 && (
-              <div>
-                {showInputs[index] && (
-                  <InputText
-                    type="text"
-                    value={newTaskNames[index]}
-                    onChange={(e) => handleInputChange(index, e.target.value)}
-                    placeholder="Enter Task Name"
-                  />
-                )}
-                <Button onClick={() => handleToggleInput(index)}>
-                  {showInputs[index] ? "Cancel" : "+ Task"}
-                </Button>
-                {showInputs[index] && (
-                  <Button onClick={() => addSubTaskHandler(subtask.id, index)}>
-                    add
-                  </Button>
-                )}
-              </div>
-            )}
           </div>
         </li>
       ))}

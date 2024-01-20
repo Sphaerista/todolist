@@ -69,7 +69,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   };
 
   return (
-    <li className="todo-item" key={todo.id}>
+    <li className="todo-item">
       <div>
         <div className="title_and_tags">
           <div className={todo.completed ? "text-completed" : "text"}>
@@ -77,7 +77,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
           </div>
           {todo.tags &&
             todo.tags.map((tag) => (
-              <div>
+              <div key={tag}>
                 <Badge size="large" severity="warning" value={tag} />
                 <Button
                   size="small"

@@ -29,7 +29,7 @@ interface TodoContextProps {
 
 const TodoContext = createContext<TodoContextProps | undefined>(undefined);
 
-const MAX_DEPTH = 3; // Set maximum depth limit
+const MAX_DEPTH = 4; // Set maximum depth limit
 
 // Helper function to recursively update a todo item
 const updateTodoItem = (
@@ -39,11 +39,9 @@ const updateTodoItem = (
 ): Todo[] => {
   return todos.map((todo) => {
     if (todo.id === id) {
-      console.log("func in todo", id);
       // If the current todo matches the ID, apply the update function
       return updateFunction(todo);
     } else if (todo.subtasks) {
-      console.log("func in sub", id);
       // If the current todo has subtasks, recursively update them
       return {
         ...todo,
@@ -72,6 +70,22 @@ const checkAllSubtasks = (todos: Todo[]): Todo[] => {
   });
 };
 
+// Recursive helper function to find a todo item by ID
+const findTodoById = (todos: Todo[], targetId: number): Todo | null => {
+  for (const todo of todos) {
+    if (todo.id === targetId) {
+      return todo;
+    }
+
+    const foundInSubtasks = findTodoById(todo.subtasks || [], targetId);
+    if (foundInSubtasks) {
+      return foundInSubtasks;
+    }
+  }
+
+  return null;
+};
+
 const todoReducer = (
   state: Todo[],
   action: { type: string; payload?: any }
@@ -95,13 +109,7 @@ const todoReducer = (
       return state.filter((todo) => todo.id !== removeId);
 
     case "TOGGLE_TODO":
-      //   return state.map((todo) =>
-      //     todo.id === action.payload
-      //       ? { ...todo, completed: !todo.completed }
-      //       : todo
-      //   );
       let toggleId = action.payload;
-      console.log("ctx", toggleId);
       let updatedTodos = updateTodoItem(state, toggleId, (todo) => ({
         ...todo,
         completed: !todo.completed,
@@ -115,22 +123,12 @@ const todoReducer = (
     //   tags
     case "ADD_TAG":
       const { idTag, tag } = action.payload;
-      //   return state.map((todo) =>
-      //     todo.id === idTag
-      //       ? { ...todo, tags: [...(todo.tags || []), tag] }
-      //       : todo
-      //   );
       return updateTodoItem(state, idTag, (todo) => ({
         ...todo,
         tags: [...(todo.tags || []), tag],
       }));
     case "DELETE_TAG":
       const { deleteId, deleteTag } = action.payload;
-      //   return state.map((todo) =>
-      //     todo.id === deleteId
-      //       ? { ...todo, tags: (todo.tags || []).filter((t) => t !== deleteTag) }
-      //       : todo
-      //   );
       return updateTodoItem(state, deleteId, (todo) => ({
         ...todo,
         tags: (todo.tags || []).filter((t) => t !== deleteTag),
@@ -138,28 +136,55 @@ const todoReducer = (
 
     //   subtasks
     case "ADD_SUBTASK":
+      // const { idSub, subtaskText } = action.payload;
+      // return state.map((todo) =>
+      //   todo.id === idSub
+      //     ? {
+      //         ...todo,
+      //         subtasks:
+      //           todo.depth < MAX_DEPTH
+      //             ? [
+      //                 ...(todo.subtasks || []),
+      //                 {
+      //                   id: Date.now(),
+      //                   text: subtaskText,
+      //                   completed: false,
+      //                   depth: todo.depth + 1,
+      //                   tags: [],
+      //                   subtasks: [],
+      //                 },
+      //               ]
+      //             : todo.subtasks, // Don't exceed the depth limit
+      //       }
+      //     : todo
+      // );
       const { idSub, subtaskText } = action.payload;
-      return state.map((todo) =>
-        todo.id === idSub
-          ? {
-              ...todo,
-              subtasks:
-                todo.depth < MAX_DEPTH
-                  ? [
-                      ...(todo.subtasks || []),
-                      {
-                        id: Date.now(),
-                        text: subtaskText,
-                        completed: false,
-                        depth: todo.depth + 1,
-                        tags: [],
-                        subtasks: [],
-                      },
-                    ]
-                  : todo.subtasks, // Don't exceed the depth limit
-            }
-          : todo
-      );
+
+      const addSubtaskToTodo = (todos: Todo[]): Todo[] =>
+        todos.map((todo) =>
+          todo.id === idSub
+            ? {
+                ...todo,
+                subtasks:
+                  todo.depth < MAX_DEPTH
+                    ? [
+                        ...(todo.subtasks || []),
+                        {
+                          id: Date.now(),
+                          text: subtaskText,
+                          completed: false,
+                          depth: todo.depth + 1,
+                          tags: [],
+                          subtasks: [],
+                        },
+                      ]
+                    : todo.subtasks, // Don't exceed the depth limit
+              }
+            : { ...todo, subtasks: addSubtaskToTodo(todo.subtasks || []) }
+        );
+
+      return addSubtaskToTodo(state);
+
     case "REMOVE_SUBTASK":
       const { parentId, removeSubtaskId } = action.payload;
       return state.map((todo) =>
@@ -232,6 +257,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 
   //   subtasks
   const addSubtask = (idSub: number, subtaskText: string) => {
+    console.log("func down", idSub, subtaskText);
     dispatch({ type: "ADD_SUBTASK", payload: { idSub, subtaskText } });
   };
   const removeSubtask = (parentId: number, removeSubtaskId: number) => {
