@@ -115,18 +115,26 @@ const todoReducer = (
     //   tags
     case "ADD_TAG":
       const { idTag, tag } = action.payload;
-      return state.map((todo) =>
-        todo.id === idTag
-          ? { ...todo, tags: [...(todo.tags || []), tag] }
-          : todo
-      );
+      //   return state.map((todo) =>
+      //     todo.id === idTag
+      //       ? { ...todo, tags: [...(todo.tags || []), tag] }
+      //       : todo
+      //   );
+      return updateTodoItem(state, idTag, (todo) => ({
+        ...todo,
+        tags: [...(todo.tags || []), tag],
+      }));
     case "DELETE_TAG":
       const { deleteId, deleteTag } = action.payload;
-      return state.map((todo) =>
-        todo.id === deleteId
-          ? { ...todo, tags: (todo.tags || []).filter((t) => t !== deleteTag) }
-          : todo
-      );
+      //   return state.map((todo) =>
+      //     todo.id === deleteId
+      //       ? { ...todo, tags: (todo.tags || []).filter((t) => t !== deleteTag) }
+      //       : todo
+      //   );
+      return updateTodoItem(state, deleteId, (todo) => ({
+        ...todo,
+        tags: (todo.tags || []).filter((t) => t !== deleteTag),
+      }));
 
     //   subtasks
     case "ADD_SUBTASK":
