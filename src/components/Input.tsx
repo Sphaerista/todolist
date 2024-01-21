@@ -9,7 +9,8 @@ const Input = () => {
   const [emptiness, setEmptiness] = useState(false);
   const { addTodo } = useTodoContext();
 
-  const handleAddTodo = () => {
+  const handleAddTodo = (e: any) => {
+    e.preventDefault();
     if (!input || /^\s*$/.test(input)) {
       setEmptiness(true);
       return;
@@ -20,14 +21,16 @@ const Input = () => {
   };
   return (
     <div className="input">
-      <InputText
-        type="text"
-        value={input}
-        placeholder="Add todo..."
-        onChange={(e) => setInput(e.target.value)}
-      />
-      {emptiness && <Message severity="error" text={"can not be empty"} />}
-      <Button onClick={handleAddTodo}>+</Button>
+      <form>
+        <InputText
+          type="text"
+          value={input}
+          placeholder="Add todo..."
+          onChange={(e) => setInput(e.target.value)}
+        />
+        {emptiness && <Message severity="error" text={"can not be empty"} />}
+        <Button onClick={handleAddTodo}>+</Button>
+      </form>
     </div>
   );
 };

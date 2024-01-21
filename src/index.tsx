@@ -5,6 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { PrimeReactProvider } from "primereact/api";
 import { TodoProvider } from "./context/TodoContext";
+// import "primereact/resources/themes/lara-light-blue/theme.css"; // Choose the theme you want
+// import "primereact/resources/themes/lara-dark-blue/theme.css"; // Choose the theme you want
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

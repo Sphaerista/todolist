@@ -3,9 +3,6 @@ import "./TodoItem.css";
 import { Todo, useTodoContext } from "../context/TodoContext";
 import SubTask from "./SubTask";
 import { Button } from "primereact/button";
-import { Dialog as Dial } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
-import { Message } from "primereact/message";
 import Dialog from "./Dialog";
 import { Tag } from "primereact/tag";
 import { Badge } from "primereact/badge";
@@ -21,6 +18,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
 
   const [visibleTag, setVisibleTag] = useState<boolean>(false);
   const [visibleSubtask, setVisibleSubtask] = useState<boolean>(false);
+  const [visibleTrash, setVisibleTrash] = useState<boolean>(false);
 
   const [newTagName, setNewTagName] = useState<string>("");
   const [newSubTaskName, setNewSubTaskName] = useState<string>("");
@@ -29,8 +27,9 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   const [sameSubTaskName, setSameSubTaskName] = useState<string>("");
 
   // handlers
-  const removeTodoHandler = (id: number) => {
-    removeTodo(id);
+  const removeTodoHandler = () => {
+    console.log("here");
+    removeTodo(todo.id);
   };
 
   const addTagHandler = (e: any) => {
@@ -78,6 +77,9 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     setNewSubTaskName("");
     setVisibleTag(false);
     setVisibleSubtask(false);
+    setVisibleTrash(false);
+    setSameName("");
+    setSameSubTaskName("");
   };
 
   return (
@@ -93,7 +95,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
                 <Badge size="large" severity="warning" value={tag} />
                 <Button
                   size="small"
-                  label="x"
+                  icon="pi pi-times"
                   severity="danger"
                   onClick={() => removeTagHandler(todo.id, tag)}
                 />
@@ -101,28 +103,27 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
             ))}
         </div>
         <Button
+          onClick={() => addToggleHandler(todo.id)}
+          icon={todo.completed ? "pi pi-times" : "pi pi-check"}
+        />
+        <Button
           icon="pi pi-plus-circle"
           onClick={() => setVisibleSubtask(true)}
         />
         <Button icon="pi pi-tag" onClick={() => setVisibleTag(true)} />
         <Button
-          onClick={() => addToggleHandler(todo.id)}
-          icon={todo.completed ? "pi pi-times" : "pi pi-check"}
-        ></Button>
-        <Button
           icon="pi pi-trash"
           severity="danger"
-          onClick={() => removeTodoHandler(todo.id)}
+          onClick={() => setVisibleTrash(true)}
         />
         {todo.subtasks.length > 0 && <SubTask todo={todo} />}
         <Dialog
           newName={newTagName}
           sameName={sameName}
           setNewName={setNewTagName}
-          setVisible={setVisibleTag}
+          // setVisible={setVisibleTag}
           visibleOffFunc={visibleOffHandler}
           visible={visibleTag}
-          label_button={"+ tag"}
           header={"Add tag"}
           placeholder={"Enter Tag..."}
           submitButtonLabel="Add"
@@ -132,14 +133,23 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
           newName={newSubTaskName}
           sameName={sameSubTaskName}
           setNewName={setNewSubTaskName}
-          setVisible={setVisibleSubtask}
+          // setVisible={setVisibleSubtask}
           visibleOffFunc={visibleOffHandler}
           visible={visibleSubtask}
-          label_button={"+ subtask"}
           header={"Add subtask"}
           placeholder={"Enter Subtask..."}
           submitButtonLabel="Add"
           onSubmition={addSubtaskHandler}
+        />
+        <Dialog
+          setNewName={setNewSubTaskName}
+          // setVisible={setVisibleTrash}
+          visibleOffFunc={visibleOffHandler}
+          visible={visibleTrash}
+          header={"Are you sure to delete todo?"}
+          submitButtonLabel="Add"
+          onSubmition={removeTodoHandler}
+          trashDial={true}
         />
       </div>
     </li>
