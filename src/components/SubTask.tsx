@@ -55,12 +55,14 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
           </div>
           <div className="subtsksq_fl">
             <span>depth: {subtask.depth}</span>
-            <Button onClick={() => addToggleHandler(subtask.id)}>
-              {subtask.completed ? "untoggle" : "toggle"}
-            </Button>
-            <Button onClick={() => removeSubTaskHandler(todo.id, subtask.id)}>
-              - sub
-            </Button>
+            <Button
+              onClick={() => addToggleHandler(subtask.id)}
+              icon={subtask.completed ? "pi pi-times" : "pi pi-check"}
+            />
+            <Button
+              onClick={() => removeSubTaskHandler(todo.id, subtask.id)}
+              icon="pi pi-trash"
+            />
           </div>
         </li>
       ))}

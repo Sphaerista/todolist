@@ -51,12 +51,16 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
             placeholder="Enter Task Name"
           />
         )}
-        <Button onClick={() => showInputHandler()}>
-          {showInput ? "Cancel" : "+ task"}
-        </Button>
         {showInput && (
-          <Button label="add" onClick={() => addSubTaskHandler(subtask.id)} />
+          <Button
+            icon="pi pi-plus-circle"
+            onClick={() => addSubTaskHandler(subtask.id)}
+          />
         )}
+        <Button
+          onClick={() => showInputHandler()}
+          icon={showInput ? "pi pi-times" : "pi pi-plus-circle"}
+        />
         {emptiness && <Message severity="error" text={"can not be empty"} />}
       </div>
       {subtask.subtasks.length > 0 && (
@@ -69,12 +73,14 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
               >
                 {task.text}
               </div>
-              <Button onClick={() => addToggleHandler(task.id)}>
-                {task.completed ? "untoggle" : "toggle"}
-              </Button>
-              <Button onClick={() => removeSubTaskHandler(subtask.id, task.id)}>
-                remove
-              </Button>
+              <Button
+                onClick={() => addToggleHandler(task.id)}
+                icon={task.completed ? "pi pi-times" : "pi pi-check"}
+              />
+              <Button
+                onClick={() => removeSubTaskHandler(subtask.id, task.id)}
+                icon="pi pi-trash"
+              />
             </div>
           ))}
         </span>

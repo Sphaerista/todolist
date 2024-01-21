@@ -33,7 +33,8 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     removeTodo(id);
   };
 
-  const addTagHandler = () => {
+  const addTagHandler = (e: any) => {
+    e.preventDefault();
     // Check if the new tag name already exists in the list of existing tags
     if (newTagName.length > 0) {
       const isTagExists = todo.tags?.some(
@@ -60,7 +61,8 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     toggleTodo(id);
   };
 
-  const addSubtaskHandler = () => {
+  const addSubtaskHandler = (e: any) => {
+    e.preventDefault();
     if (newSubTaskName.length > 0) {
       addSubtask(todo.id, newSubTaskName);
       setVisibleSubtask(false);
@@ -69,6 +71,13 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     } else {
       setSameSubTaskName("Subtask can not be empty");
     }
+  };
+
+  const visibleOffHandler = () => {
+    setNewTagName("");
+    setNewSubTaskName("");
+    setVisibleTag(false);
+    setVisibleSubtask(false);
   };
 
   return (
@@ -90,44 +99,47 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
                 />
               </div>
             ))}
-          <Dialog
-            newName={newTagName}
-            sameName={sameName}
-            setNewName={setNewTagName}
-            setVisible={setVisibleTag}
-            visible={visibleTag}
-            label_button={"+ tag"}
-            header={"Add tag"}
-            placeholder={"Enter Tag..."}
-            submitButtonLabel="Add tg"
-            onSubmit={addTagHandler}
-          />
         </div>
-        <p>depth:{todo.depth}</p>
+        <Button
+          icon="pi pi-plus-circle"
+          onClick={() => setVisibleSubtask(true)}
+        />
+        <Button icon="pi pi-tag" onClick={() => setVisibleTag(true)} />
+        <Button
+          onClick={() => addToggleHandler(todo.id)}
+          icon={todo.completed ? "pi pi-times" : "pi pi-check"}
+        ></Button>
+        <Button
+          icon="pi pi-trash"
+          severity="danger"
+          onClick={() => removeTodoHandler(todo.id)}
+        />
         {todo.subtasks.length > 0 && <SubTask todo={todo} />}
-
-        <Button onClick={() => addToggleHandler(todo.id)}>
-          {todo.completed ? "untoggle" : "toggle"}
-        </Button>
-
+        <Dialog
+          newName={newTagName}
+          sameName={sameName}
+          setNewName={setNewTagName}
+          setVisible={setVisibleTag}
+          visibleOffFunc={visibleOffHandler}
+          visible={visibleTag}
+          label_button={"+ tag"}
+          header={"Add tag"}
+          placeholder={"Enter Tag..."}
+          submitButtonLabel="Add"
+          onSubmition={addTagHandler}
+        />
         <Dialog
           newName={newSubTaskName}
           sameName={sameSubTaskName}
           setNewName={setNewSubTaskName}
           setVisible={setVisibleSubtask}
+          visibleOffFunc={visibleOffHandler}
           visible={visibleSubtask}
           label_button={"+ subtask"}
           header={"Add subtask"}
           placeholder={"Enter Subtask..."}
-          submitButtonLabel="Add sb"
-          onSubmit={addSubtaskHandler}
-        />
-
-        <Button
-          icon="pi pi-trash"
-          label="REMOVE"
-          severity="danger"
-          onClick={() => removeTodoHandler(todo.id)}
+          submitButtonLabel="Add"
+          onSubmition={addSubtaskHandler}
         />
       </div>
     </li>
