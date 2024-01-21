@@ -6,6 +6,8 @@
   /* display: flex; */
 }
 .main_li {
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid wheat;
   padding: 10px;
 }
@@ -13,32 +15,36 @@
 .text {
   font-weight: bold;
   font-size: x-large;
+  margin-left: 5px;
 }
 
 .text-completed {
   font-weight: bold;
   font-size: x-large;
   text-decoration: red line-through;
+  margin-left: 5px;
 }
 
 .title_and_tags {
   display: flex;
   justify-content: space-between;
 }
+.toggle-and-text {
+  display: flex;
+}
 
 .input_task {
-  /* display: flex; */
-  margin-top: 5px;
-}
-
-.subtsksq_fl {
   display: flex;
-  justify-content: flex-end;
-}
-.subtsksq_fl > * {
-  margin-left: 10px;
 }
 
 .sb_ts_sq {
   display: flex;
+}
+.dial_btns_remove {
+  display: flex;
+  justify-content: end;
+}
+
+.dial_btn_remove {
+  margin-right: 5px;
 }

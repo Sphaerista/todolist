@@ -23,18 +23,25 @@ function App() {
 
   return (
     <div className="App">
-      <Button
-        className={`p-2 rounded ${
-          theme === "dark" ? "bg-gray-100 text-black" : "bg-gray-700 text-white"
-        }`}
-        onClick={() => changeMyTheme()}
-      >
-        <span
-          className={`pr-1 pi pi-${theme === "dark" ? "sun" : "moon"}`}
-        ></span>
-      </Button>
+      <div className="head">
+        <h1>todoapp</h1>
+        <div className="btn_theme">
+          <Button
+            className={`p-2 rounded ${
+              theme === "dark"
+                ? "bg-gray-100 text-black"
+                : "bg-gray-700 text-white"
+            }`}
+            severity={theme === "dark" ? "secondary" : "warning"}
+            onClick={() => changeMyTheme()}
+          >
+            <span
+              className={`pr-1 pi pi-${theme === "dark" ? "moon" : "sun"}`}
+            ></span>
+          </Button>
+        </div>
+      </div>
       <div className="App">
-        <h1>todos</h1>
         <Input />
         <TodoList />
       </div>

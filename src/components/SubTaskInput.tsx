@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { useTodoContext, Todo } from "../context/TodoContext";
-import TodoItem from "./TodoItem";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import Dialog from "./Dialog";
 import { Message } from "primereact/message";
 
-interface SubTaskSqProps {
+interface SubTaskInputProps {
   subtask: Todo;
   onRemoveSubtask: (parentId: number, id: number) => void;
   todo: Todo;
 }
-const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
+const SubTaskInput: React.FC<SubTaskInputProps> = (props) => {
   const { subtask, onRemoveSubtask, todo } = props;
-  const { addSubtask, toggleTodo, removeSubtask } = useTodoContext();
+  const { addSubtask } = useTodoContext();
   const [newTaskName, setNewTaskName] = useState<string>("");
   const [showInput, setShowInput] = useState<boolean>(false);
   const [emptiness, setEmptiness] = useState(false);
@@ -35,18 +33,10 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
       setEmptiness(false);
     }
   };
-  //   lowest level
-  const addToggleHandler = (id: number) => {
-    toggleTodo(id);
-  };
-  const removeSubTaskHandler = (parentId: number, id: number) => {
-    console.log("comp", parentId, id);
-    removeSubtask(parentId, id);
-  };
 
   return (
     <div>
-      {/* <div className="sb_ts_sq">
+      <div className="sb_ts_sq">
         <form>
           {showInput && (
             <InputText
@@ -60,6 +50,7 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
           {showInput && (
             <Button icon="pi pi-plus-circle" onClick={addSubTaskHandler} />
           )}
+          <Button icon="pi pi-pencil" onClick={() => {}} />
           <Button
             onClick={showInputHandler}
             icon={showInput ? "pi pi-times" : "pi pi-plus-circle"}
@@ -69,35 +60,10 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
         <Button
           onClick={() => onRemoveSubtask(todo.id, subtask.id)}
           severity="danger"
-          label="subtask"
           icon="pi pi-trash"
         />
-      </div> */}
-      {subtask.subtasks.length > 0 && (
-        <div>
-          {subtask.subtasks.map((task) => (
-            <div key={task.id} className="lowest">
-              <div
-                key={task.id}
-                className={task.completed ? "text-completed" : "text"}
-              >
-                {task.text}
-              </div>
-              <Button icon="pi pi-pencil" onClick={() => {}} />
-              <Button
-                onClick={() => addToggleHandler(task.id)}
-                icon={task.completed ? "pi pi-times" : "pi pi-check"}
-              />
-              <Button
-                onClick={() => removeSubTaskHandler(subtask.id, task.id)}
-                severity="danger"
-                icon="pi pi-trash"
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
-export default SubTaskSq;
+export default SubTaskInput;

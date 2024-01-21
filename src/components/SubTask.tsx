@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useTodoContext, Todo } from "../context/TodoContext";
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import SubTaskSq from "./SubTaskSq";
 import { Badge } from "primereact/badge";
-import Dialog from "./Dialog";
-import SubItemSq from "./SubItemSq";
+import SubTaskInput from "./SubTaskInput";
 
 interface SubTaskProps {
   todo: Todo;
@@ -32,39 +30,45 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
   return (
     <ul>
       {todo.subtasks.map((subtask) => (
-        <li className="main_li" key={subtask.id}>
-          <div className="title_and_tags">
-            <div className={subtask.completed ? "text-completed" : "text"}>
-              {subtask.text}
-            </div>
-          </div>
-          {subtask.tags &&
-            subtask.tags.map((tag) => (
-              <div>
-                <Badge size="large" severity="warning" value={tag} />
+        <>
+          <li className="main_li" key={subtask.id}>
+            <div className="title_and_tags">
+              <div className="toggle-and-text">
                 <Button
-                  size="small"
-                  label="x"
-                  severity="danger"
-                  onClick={() => removeTagHandler}
+                  onClick={() => addToggleHandler(subtask.id)}
+                  icon={subtask.completed ? "pi pi-times" : "pi pi-check"}
                 />
+                <div className={subtask.completed ? "text-completed" : "text"}>
+                  {subtask.text}
+                </div>
               </div>
-            ))}
-          <div className="input_task">
-            <SubTaskSq subtask={subtask} />
-          </div>
-          <div className="subtsksq_fl">
-            <span>depth: {subtask.depth}</span>
-            <Button
-              onClick={() => addToggleHandler(subtask.id)}
-              icon={subtask.completed ? "pi pi-times" : "pi pi-check"}
-            />
-            <Button
-              onClick={() => removeSubTaskHandler(todo.id, subtask.id)}
-              icon="pi pi-trash"
-            />
-          </div>
-        </li>
+            </div>
+            {subtask.tags &&
+              subtask.tags.map((tag) => (
+                <div>
+                  <Badge size="large" severity="warning" value={tag} />
+                  <Button
+                    size="small"
+                    label="x"
+                    severity="danger"
+                    onClick={() => removeTagHandler}
+                  />
+                </div>
+              ))}
+            <div className="input_task">
+              <SubTaskInput
+                subtask={subtask}
+                todo={todo}
+                onRemoveSubtask={removeSubTaskHandler}
+              />
+            </div>
+          </li>
+          <SubTaskSq
+            subtask={subtask}
+            todo={todo}
+            onRemoveSubtask={removeSubTaskHandler}
+          />
+        </>
       ))}
     </ul>
   );
