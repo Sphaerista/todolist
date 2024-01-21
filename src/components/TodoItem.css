@@ -1,0 +1,44 @@
+.todo-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  list-style-type: none;
+  /* display: flex; */
+}
+.main_li {
+  border-top: 1px solid wheat;
+  padding: 10px;
+}
+
+.text {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.text-completed {
+  font-weight: bold;
+  font-size: x-large;
+  text-decoration: red line-through;
+}
+
+.title_and_tags {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input_task {
+  /* display: flex; */
+  margin-top: 5px;
+}
+
+.subtsksq_fl {
+  display: flex;
+  justify-content: flex-end;
+}
+.subtsksq_fl > * {
+  margin-left: 10px;
+}
+
+.sb_ts_sq {
+  display: flex;
+}

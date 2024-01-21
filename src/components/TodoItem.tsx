@@ -63,6 +63,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
       addSubtask(id, subtaskText);
       setVisibleSubtask(false);
       setSameSubTaskName("");
+      setNewSubTaskName("");
     } else {
       setSameSubTaskName("Subtask can not be empty");
     }
