@@ -21,8 +21,10 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
 
   const [visibleTag, setVisibleTag] = useState<boolean>(false);
   const [visibleSubtask, setVisibleSubtask] = useState<boolean>(false);
+
   const [newTagName, setNewTagName] = useState<string>("");
   const [newSubTaskName, setNewSubTaskName] = useState<string>("");
+
   const [sameName, setSameName] = useState<string>("");
   const [sameSubTaskName, setSameSubTaskName] = useState<string>("");
 
@@ -31,15 +33,15 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     removeTodo(id);
   };
 
-  const addTagHandler = (id: number, tag: string) => {
+  const addTagHandler = () => {
     // Check if the new tag name already exists in the list of existing tags
-    if (tag.length > 0) {
+    if (newTagName.length > 0) {
       const isTagExists = todo.tags?.some(
         (tag) => tag.toLowerCase() === newTagName.toLowerCase()
       );
 
       if (!isTagExists) {
-        addTag(id, tag);
+        addTag(todo.id, newTagName);
         setVisibleTag(false);
         setNewTagName("");
         setSameName("");
@@ -58,9 +60,9 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     toggleTodo(id);
   };
 
-  const addSubtaskHandler = (id: number, subtaskText: string) => {
+  const addSubtaskHandler = () => {
     if (newSubTaskName.length > 0) {
-      addSubtask(id, subtaskText);
+      addSubtask(todo.id, newSubTaskName);
       setVisibleSubtask(false);
       setSameSubTaskName("");
       setNewSubTaskName("");
@@ -89,17 +91,16 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
               </div>
             ))}
           <Dialog
-            addHandler={addTagHandler}
             newName={newTagName}
-            removeHandler={removeTagHandler}
             sameName={sameName}
             setNewName={setNewTagName}
             setVisible={setVisibleTag}
-            todo={todo}
             visible={visibleTag}
             label_button={"+ tag"}
             header={"Add tag"}
             placeholder={"Enter Tag..."}
+            submitButtonLabel="Add tg"
+            onSubmit={addTagHandler}
           />
         </div>
         <p>depth:{todo.depth}</p>
@@ -110,18 +111,16 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
         </Button>
 
         <Dialog
-          addSubtaskHandler={addSubtaskHandler}
-          addHandler={addTagHandler}
           newName={newSubTaskName}
           sameName={sameSubTaskName}
-          removeHandler={removeTagHandler}
           setNewName={setNewSubTaskName}
           setVisible={setVisibleSubtask}
-          todo={todo}
           visible={visibleSubtask}
           label_button={"+ subtask"}
           header={"Add subtask"}
           placeholder={"Enter Subtask..."}
+          submitButtonLabel="Add sb"
+          onSubmit={addSubtaskHandler}
         />
 
         <Button
