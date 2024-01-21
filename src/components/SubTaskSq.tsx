@@ -4,6 +4,7 @@ import TodoItem from "./TodoItem";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Dialog from "./Dialog";
+import { Message } from "primereact/message";
 
 interface SubTaskSqProps {
   subtask: Todo;
@@ -13,6 +14,7 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
   const { addSubtask, toggleTodo, removeSubtask } = useTodoContext();
   const [newTaskName, setNewTaskName] = useState<string>("");
   const [showInput, setShowInput] = useState<boolean>(false);
+  const [emptiness, setEmptiness] = useState(false);
 
   const showInputHandler = () => {
     setShowInput((prev) => !prev);
@@ -20,9 +22,14 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
   };
   const addSubTaskHandler = (id: number) => {
     console.log("sq", id, newTaskName);
-    addSubtask(id, newTaskName);
-    setShowInput((prev) => !prev);
-    setNewTaskName("");
+    if (newTaskName.length < 1) {
+      setEmptiness(true);
+    } else {
+      addSubtask(id, newTaskName);
+      setShowInput((prev) => !prev);
+      setNewTaskName("");
+      setEmptiness(false);
+    }
   };
   //   lowest level
   const addToggleHandler = (id: number) => {
@@ -50,6 +57,7 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
         {showInput && (
           <Button label="add" onClick={() => addSubTaskHandler(subtask.id)} />
         )}
+        {emptiness && <Message severity="error" text={"can not be empty"} />}
       </div>
       {subtask.subtasks.length > 0 && (
         <span>
