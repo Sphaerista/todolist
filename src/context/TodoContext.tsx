@@ -115,6 +115,14 @@ const todoReducer = (
       const toggleTodo = (todos: Todo[]): Todo[] =>
         todos.map((todo) => {
           if (todo.id === toggleId) {
+            if (todo.subtasks && todo.subtasks.length > 0) {
+              todo.subtasks.map((sub) => (sub.completed = !todo.completed));
+              todo.subtasks.map((sub) => {
+                if (sub.subtasks && sub.subtasks.length > 0) {
+                  sub.subtasks.map((subs) => (subs.completed = sub.completed));
+                }
+              });
+            }
             // Toggle the completed status of the current todo
             return { ...todo, completed: !todo.completed };
           } else if (todo.subtasks && todo.subtasks.length > 0) {
@@ -129,7 +137,6 @@ const todoReducer = (
       // Toggle the todos
       const updatedTodos = toggleTodo(state);
       //   return updatedTodos;
-      console.log("before", updatedTodos);
       // Check all subtasks (including nested ones)
       const updatedTodosWithSubtasks = checkAllSubtasks(updatedTodos);
 
