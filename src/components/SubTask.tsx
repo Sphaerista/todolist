@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useTodoContext, Todo } from "../context/TodoContext";
 import { Button } from "primereact/button";
 import SubTaskSq from "./SubTaskSq";
-import { Badge } from "primereact/badge";
 import SubTaskInput from "./SubTaskInput";
 
 interface SubTaskProps {
@@ -12,6 +11,8 @@ interface SubTaskProps {
 const SubTask: React.FC<SubTaskProps> = (props) => {
   const { todo } = props;
   const { removeSubtask, toggleTodo, deleteTag } = useTodoContext();
+  const [inputEditTask, setInputEditTask] = useState(false);
+  const [inputEditTaskId, setInputEditTaskId] = useState<number>(0);
 
   const removeSubTaskHandler = (parentId: number, id: number) => {
     removeSubtask(parentId, id);
@@ -21,10 +22,14 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
     toggleTodo(id);
   };
 
-  //   tags
   const removeTagHandler = (id: number, tag: string) => {
     console.log("task", id, tag);
     // deleteTag(id, tag);
+  };
+
+  const onEditTask = (task: number) => {
+    setInputEditTaskId(task);
+    setInputEditTask((prev) => !prev);
   };
 
   return (
@@ -38,32 +43,27 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
                   onClick={() => addToggleHandler(subtask.id)}
                   icon={subtask.completed ? "pi pi-times" : "pi pi-check"}
                 />
-                <div className={subtask.completed ? "text-completed" : "text"}>
-                  {subtask.text}
-                </div>
+                {/* <div className={subtask.completed ? "text-completed" : "text"}>
+                  {inputEditTask ? (
+                    <InputText autoFocus value={subtask.text} />
+                  ) : (
+                    subtask.text
+                  )}
+                </div> */}
               </div>
             </div>
-            {subtask.tags &&
-              subtask.tags.map((tag) => (
-                <div>
-                  <Badge size="large" severity="warning" value={tag} />
-                  <Button
-                    size="small"
-                    label="x"
-                    severity="danger"
-                    onClick={() => removeTagHandler}
-                  />
-                </div>
-              ))}
             <div className="input_task">
               <SubTaskInput
+                key={subtask.id + 2}
                 subtask={subtask}
                 todo={todo}
                 onRemoveSubtask={removeSubTaskHandler}
+                onEditTask={onEditTask}
               />
             </div>
           </li>
           <SubTaskSq
+            key={subtask.id + 3}
             subtask={subtask}
             todo={todo}
             onRemoveSubtask={removeSubTaskHandler}

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useTodoContext, Todo } from "../context/TodoContext";
-import TodoItem from "./TodoItem";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import Dialog from "./Dialog";
-import { Message } from "primereact/message";
+import SubTaskLowest from "./SubTaskLowest";
 
 interface SubTaskSqProps {
   subtask: Todo;
@@ -12,7 +8,7 @@ interface SubTaskSqProps {
   todo: Todo;
 }
 const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
-  const { subtask, onRemoveSubtask, todo } = props;
+  const { subtask } = props;
   const { addSubtask, toggleTodo, removeSubtask } = useTodoContext();
   const [newTaskName, setNewTaskName] = useState<string>("");
   const [showInput, setShowInput] = useState<boolean>(false);
@@ -74,28 +70,17 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
         />
       </div> */}
       {subtask.subtasks.length > 0 && (
-        <div>
+        <ul>
           {subtask.subtasks.map((task) => (
-            <div key={task.id} className="lowest">
-              <div
-                key={task.id}
-                className={task.completed ? "text-completed" : "text"}
-              >
-                {task.text}
-              </div>
-              <Button icon="pi pi-pencil" onClick={() => {}} />
-              <Button
-                onClick={() => addToggleHandler(task.id)}
-                icon={task.completed ? "pi pi-times" : "pi pi-check"}
-              />
-              <Button
-                onClick={() => removeSubTaskHandler(subtask.id, task.id)}
-                severity="danger"
-                icon="pi pi-trash"
-              />
-            </div>
+            <SubTaskLowest
+              addToggleHandler={addToggleHandler}
+              removeSubTaskHandler={removeSubTaskHandler}
+              subtask={subtask}
+              task={task}
+              key={task.id}
+            />
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

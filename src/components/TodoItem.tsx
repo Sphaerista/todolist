@@ -4,7 +4,6 @@ import { Todo, useTodoContext } from "../context/TodoContext";
 import SubTask from "./SubTask";
 import { Button } from "primereact/button";
 import Dialog from "./Dialog";
-import { Tag } from "primereact/tag";
 import { Badge } from "primereact/badge";
 
 export interface TodoItemProps {
@@ -19,6 +18,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   const [visibleTag, setVisibleTag] = useState<boolean>(false);
   const [visibleSubtask, setVisibleSubtask] = useState<boolean>(false);
   const [visibleTrash, setVisibleTrash] = useState<boolean>(false);
+  const [showBtns, setShowBtns] = useState<boolean>(false);
 
   const [newTagName, setNewTagName] = useState<string>("");
   const [newSubTaskName, setNewSubTaskName] = useState<string>("");
@@ -82,12 +82,21 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     setSameSubTaskName("");
   };
 
+  const popupHandler = () => {
+    setShowBtns((prev) => !prev);
+  };
   return (
     <li className="todo-item">
       <div>
         <div className="title_and_tags">
-          <div className={todo.completed ? "text-completed" : "text"}>
-            {todo.text}
+          <div className="toggle-and-text">
+            <Button
+              onClick={() => addToggleHandler(todo.id)}
+              icon={todo.completed ? "pi pi-times" : "pi pi-check"}
+            />
+            <div className={todo.completed ? "text-completed" : "text"}>
+              {todo.text}
+            </div>
           </div>
           {todo.tags &&
             todo.tags.map((tag) => (
@@ -101,21 +110,28 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
                 />
               </div>
             ))}
+          <div className="popup_btn">
+            {showBtns && (
+              <div className="btns_1_level">
+                <Button icon="pi pi-pencil" onClick={() => {}} />
+                <Button
+                  icon="pi pi-plus-circle"
+                  onClick={() => setVisibleSubtask(true)}
+                />
+                <Button icon="pi pi-tag" onClick={() => setVisibleTag(true)} />
+                <Button
+                  icon="pi pi-trash"
+                  severity="danger"
+                  onClick={() => setVisibleTrash(true)}
+                />
+              </div>
+            )}
+            <Button
+              icon={showBtns ? "pi pi-angle-right" : "pi pi-align-justify"}
+              onClick={popupHandler}
+            />
+          </div>
         </div>
-        <Button
-          onClick={() => addToggleHandler(todo.id)}
-          icon={todo.completed ? "pi pi-times" : "pi pi-check"}
-        />
-        <Button
-          icon="pi pi-plus-circle"
-          onClick={() => setVisibleSubtask(true)}
-        />
-        <Button icon="pi pi-tag" onClick={() => setVisibleTag(true)} />
-        <Button
-          icon="pi pi-trash"
-          severity="danger"
-          onClick={() => setVisibleTrash(true)}
-        />
         {todo.subtasks.length > 0 && <SubTask todo={todo} />}
         <Dialog
           newName={newTagName}
