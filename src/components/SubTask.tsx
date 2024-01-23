@@ -43,13 +43,9 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
                   onClick={() => addToggleHandler(subtask.id)}
                   icon={subtask.completed ? "pi pi-times" : "pi pi-check"}
                 />
-                {/* <div className={subtask.completed ? "text-completed" : "text"}>
-                  {inputEditTask ? (
-                    <InputText autoFocus value={subtask.text} />
-                  ) : (
-                    subtask.text
-                  )}
-                </div> */}
+                <div className={subtask.completed ? "text-completed" : "text"}>
+                  {subtask.text}
+                </div>
               </div>
             </div>
             <div className="input_task">

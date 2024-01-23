@@ -13,14 +13,14 @@ interface SubTaskInputProps {
 }
 const SubTaskInput: React.FC<SubTaskInputProps> = (props) => {
   const { subtask, onRemoveSubtask, todo, onEditTask } = props;
-  const { addSubtask } = useTodoContext();
+  const { addSubtask, editTodoText } = useTodoContext();
   const [newTaskName, setNewTaskName] = useState<string>("");
   const [showInput, setShowInput] = useState<boolean>(false);
   const [emptiness, setEmptiness] = useState(false);
   const [showBtns, setShowBtns] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
 
-  const [newTestkName, setNewTestkName] = useState<string>("");
+  const [newTextName, setNewTestkName] = useState<string>(subtask.text);
   const [visibleEditTask, setVisibleEditTask] = useState<boolean>(true);
 
   const showInputHandler = (e: any) => {
@@ -49,12 +49,15 @@ const SubTaskInput: React.FC<SubTaskInputProps> = (props) => {
 
   const visibleOffFunc = () => {
     setVisibleEditTask(false);
+    setNewTestkName(subtask.text);
   };
 
   const editTextHanlder = (e: any) => {
     e.preventDefault();
+    console.log(subtask.id, newTextName);
+    editTodoText(subtask.id, newTextName);
     setVisibleEditTask(false);
-    console.log(subtask.text);
+    setNewTestkName(newTextName);
   };
 
   const popupHandler = () => {
@@ -78,6 +81,7 @@ const SubTaskInput: React.FC<SubTaskInputProps> = (props) => {
                   />
                   <Button
                     icon="pi pi-plus-circle"
+                    disabled={subtask.completed}
                     onClick={addSubTaskHandler}
                   />
                 </form>
@@ -86,6 +90,7 @@ const SubTaskInput: React.FC<SubTaskInputProps> = (props) => {
             {!showInput && <Button icon="pi pi-pencil" onClick={editTask} />}
             <Button
               onClick={showInputHandler}
+              disabled={subtask.completed}
               icon={showInput ? "pi pi-times" : "pi pi-plus-circle"}
             />
             {showInput && <Button icon="pi pi-pencil" onClick={editTask} />}
@@ -109,7 +114,7 @@ const SubTaskInput: React.FC<SubTaskInputProps> = (props) => {
           header="Edit subtask name"
           onSubmition={editTextHanlder}
           setNewName={setNewTestkName}
-          newName={subtask.text}
+          newName={newTextName}
           submitButtonLabel="Submit"
           visible={visibleEditTask}
           visibleOffFunc={visibleOffFunc}

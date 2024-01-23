@@ -32,22 +32,21 @@ const SubTaskLowest: React.FC<SubTaskLowestProps> = (props) => {
           {task.text}
         </div>
       </div>
-      <div className="popup_btn">
+      <Button
+        onClick={() => removeSubTaskHandler(subtask.id, task.id)}
+        severity="danger"
+        icon="pi pi-trash"
+      />
+      {/* <div className="popup_btn">
         {showBtns && (
           <div className="btns_2_level">
-            <Button icon="pi pi-pencil" onClick={() => {}} />
-            <Button
-              onClick={() => removeSubTaskHandler(subtask.id, task.id)}
-              severity="danger"
-              icon="pi pi-trash"
-            />
           </div>
         )}
         <Button
           icon={showBtns ? "pi pi-angle-right" : "pi pi-align-justify"}
           onClick={popupHandler}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

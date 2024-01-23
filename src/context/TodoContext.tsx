@@ -20,6 +20,7 @@ interface TodoContextProps {
   todos: Todo[];
   addTodo: (text: string, depth: number) => void;
   removeTodo: (id: number) => void;
+  editTodoText: (id: number, text: string) => void;
   toggleTodo: (id: number) => void;
   addTag: (id: number, tag: string) => void;
   deleteTag: (deleteId: number, deleteTag: string) => void;
@@ -108,6 +109,9 @@ const todoReducer = (
     case "REMOVE_TODO":
       const { removeId } = action.payload;
       return state.filter((todo) => todo.id !== removeId);
+    case "UPDATE_TODO_TEXT":
+      const { id, newText } = action.payload;
+      return updateTodoItem(state, id, (todo) => ({ ...todo, text: newText }));
 
     case "TOGGLE_TODO":
       const toggleId = action.payload;
@@ -279,6 +283,9 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
   const removeTodo = (removeId: number) => {
     dispatch({ type: "REMOVE_TODO", payload: { removeId } });
   };
+  const editTodoText = (id: number, newText: string) => {
+    dispatch({ type: "UPDATE_TODO_TEXT", payload: { id, newText } });
+  };
 
   const toggleTodo = (toggleId: number) => {
     dispatch({ type: "TOGGLE_TODO", payload: toggleId });
@@ -310,6 +317,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
         todos,
         addTodo,
         removeTodo,
+        editTodoText,
         toggleTodo,
         addTag,
         deleteTag,
