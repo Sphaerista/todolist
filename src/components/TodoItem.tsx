@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./TodoItem.css";
-import { Todo, useTodoContext } from "../context/TodoContext";
+import { Priority, Todo, useTodoContext } from "../context/TodoContext";
 import SubTask from "./SubTask";
 import { Button } from "primereact/button";
 import Dialog from "./Dialog";
@@ -26,6 +26,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   const [visibleTrash, setVisibleTrash] = useState<boolean>(false);
   const [visibleEditTask, setVisibleEditTask] = useState<boolean>(false);
   const [showBtns, setShowBtns] = useState<boolean>(false);
+  const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
 
   const [newTagName, setNewTagName] = useState<string>("");
   const [newSubTaskName, setNewSubTaskName] = useState<string>("");
@@ -33,6 +34,14 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
 
   const [sameName, setSameName] = useState<string>("");
   const [sameSubTaskName, setSameSubTaskName] = useState<string>("");
+
+  // tag radiobtn data
+  const tagPriority = [
+    { name: "low", key: "info" },
+    { name: "moderate", key: "warning" },
+    { name: "high", key: "danger" },
+  ];
+  const [selectedPriority, setSelectedPriority] = useState(tagPriority[1]);
 
   // handlers
   const removeTodoHandler = () => {
@@ -44,24 +53,18 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
     e.preventDefault();
     // Check if the new tag name already exists in the list of existing tags
     if (newTagName.length > 0) {
-      const isTagExists = todo.tags?.some(
-        (tag) => tag.toLowerCase() === newTagName.toLowerCase()
-      );
-
-      if (!isTagExists) {
-        addTag(todo.id, newTagName);
-        setVisibleTag(false);
-        setNewTagName("");
-        setSameName("");
-      } else {
-        setSameName("This tag is alreday exists");
-      }
+      addTag(todo.id, newTagName, selectedPriority.key as Priority);
+      setVisibleTag(false);
+      setNewTagName("");
+      setSameName("");
     } else {
       setSameName("Tag should have at least one character");
     }
   };
-  const removeTagHandler = (id: number, tag: string) => {
-    deleteTag(id, tag);
+  let tagRenderValues = todo.tag && Object.values(todo.tag);
+
+  const removeTagHandler = (id: number) => {
+    if (todo.tag) deleteTag(id, todo.tag);
   };
 
   const addToggleHandler = (id: number) => {
@@ -119,18 +122,21 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
               {todo.text}
             </div>
           </div>
-          {todo.tags &&
-            todo.tags.map((tag) => (
-              <div key={tag}>
-                <Badge size="large" severity="warning" value={tag} />
-                <Button
-                  size="small"
-                  icon="pi pi-times"
-                  severity="danger"
-                  onClick={() => removeTagHandler(todo.id, tag)}
-                />
-              </div>
-            ))}
+          {tagRenderValues && (
+            <div className="badge_and_btn" key={tagRenderValues[0]}>
+              <Badge
+                size="large"
+                severity={tagRenderValues[1]}
+                value={tagRenderValues[0]}
+              />
+              <button
+                className="tagRemoveBtn"
+                onClick={() => removeTagHandler(todo.id)}
+              >
+                x
+              </button>
+            </div>
+          )}
           <div className="popup_btn">
             {showBtns && (
               <div className="btns_1_level">
@@ -141,6 +147,10 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
                   onClick={() => setVisibleSubtask(true)}
                 />
                 <Button icon="pi pi-tag" onClick={() => setVisibleTag(true)} />
+                <Button
+                  icon={showSubtasks ? "pi pi-angle-up" : "pi pi-angle-down"}
+                  onClick={() => setShowSubtasks((prev) => !prev)}
+                />
                 <Button
                   icon="pi pi-trash"
                   severity="danger"
@@ -154,17 +164,19 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
             />
           </div>
         </div>
-        {todo.subtasks.length > 0 && <SubTask todo={todo} />}
+        {todo.subtasks.length > 0 && showSubtasks && <SubTask todo={todo} />}
         <Dialog
           newName={newTagName}
           sameName={sameName}
           setNewName={setNewTagName}
-          // setVisible={setVisibleTag}
+          setSelectedPriority={setSelectedPriority}
+          selectedPriority={selectedPriority}
           visibleOffFunc={visibleOffHandler}
           visible={visibleTag}
-          header={"Add tag"}
-          placeholder={"Enter Tag..."}
-          submitButtonLabel="Add"
+          header={tagRenderValues ? "Edit tag" : "Add tag"}
+          placeholder={tagRenderValues ? tagRenderValues[0] : "Enter Tag..."}
+          submitButtonLabel={tagRenderValues ? "Edit" : "Add"}
+          tagPriorityList={tagPriority}
           onSubmition={addTagHandler}
         />
         <Dialog

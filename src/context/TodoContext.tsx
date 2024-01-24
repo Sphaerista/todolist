@@ -7,12 +7,18 @@ import React, {
   useState,
 } from "react";
 
+export type Priority = "info" | "warning" | "danger";
+export interface Tag {
+  tagName: string;
+  priority: Priority;
+}
 export interface Todo {
   id: number;
   text: string;
   completed: boolean;
   depth: number;
-  tags: string[];
+  // tags: string[];
+  tag: Tag | undefined;
   subtasks: Todo[];
 }
 
@@ -22,8 +28,8 @@ interface TodoContextProps {
   removeTodo: (id: number) => void;
   editTodoText: (id: number, text: string) => void;
   toggleTodo: (id: number) => void;
-  addTag: (id: number, tag: string) => void;
-  deleteTag: (deleteId: number, deleteTag: string) => void;
+  addTag: (id: number, tag: string, priority: Priority) => void;
+  deleteTag: (deleteId: number, tag: Tag) => void;
   addSubtask: (id: number, text: string) => void;
   removeSubtask: (parentId: number, id: number) => void;
 }
@@ -102,7 +108,7 @@ const todoReducer = (
           text: action.payload.text,
           completed: false,
           depth: action.payload.depth,
-          tags: [],
+          tag: undefined,
           subtasks: [],
         },
       ];
@@ -149,19 +155,32 @@ const todoReducer = (
     case "LOAD_TODOS":
       return action.payload;
 
-    //   tags
+    //   new tags
     case "ADD_TAG":
-      const { idTag, tag } = action.payload;
+      const { idTag, tagName, priority } = action.payload;
       return updateTodoItem(state, idTag, (todo) => ({
         ...todo,
-        tags: [...(todo.tags || []), tag],
+        tag: { tagName, priority },
       }));
     case "DELETE_TAG":
       const { deleteId, deleteTag } = action.payload;
       return updateTodoItem(state, deleteId, (todo) => ({
         ...todo,
-        tags: (todo.tags || []).filter((t) => t !== deleteTag),
+        tag: undefined,
       }));
+    //   old tags
+    // case "ADD_TAG":
+    //   const { idTag, tag } = action.payload;
+    //   return updateTodoItem(state, idTag, (todo) => ({
+    //     ...todo,
+    //     tags: [...(todo.tags || []), tag],
+    //   }));
+    // case "DELETE_TAG":
+    //   const { deleteId, deleteTag } = action.payload;
+    //   return updateTodoItem(state, deleteId, (todo) => ({
+    //     ...todo,
+    //     tags: (todo.tags || []).filter((t) => t !== deleteTag),
+    //   }));
 
     //   subtasks
     case "ADD_SUBTASK":
@@ -203,7 +222,7 @@ const todoReducer = (
                           text: subtaskText,
                           completed: false,
                           depth: todo.depth + 1,
-                          tags: [],
+                          tag: undefined,
                           subtasks: [],
                         },
                       ]
@@ -291,13 +310,20 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "TOGGLE_TODO", payload: toggleId });
   };
 
-  //   tags
-  const addTag = (idTag: number, tag: string) => {
-    dispatch({ type: "ADD_TAG", payload: { idTag, tag } });
+  //  new tags
+  const addTag = (idTag: number, tagName: string, priority: Priority) => {
+    dispatch({ type: "ADD_TAG", payload: { idTag, tagName, priority } });
   };
-  const deleteTag = (deleteId: number, deleteTag: string) => {
+  const deleteTag = (deleteId: number, deleteTag: Tag) => {
     dispatch({ type: "DELETE_TAG", payload: { deleteId, deleteTag } });
   };
+  //  old tags
+  // const addTag = (idTag: number, tag: string,) => {
+  //   dispatch({ type: "ADD_TAG", payload: { idTag, tag } });
+  // };
+  // const deleteTag = (deleteId: number, deleteTag: string) => {
+  //   dispatch({ type: "DELETE_TAG", payload: { deleteId, deleteTag } });
+  // };
 
   //   subtasks
   const addSubtask = (idSub: number, subtaskText: string) => {
