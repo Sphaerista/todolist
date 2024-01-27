@@ -3,6 +3,7 @@ import { Button } from "primereact/button";
 import { Dialog as Dial } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Message } from "primereact/message";
+import { RadioButton } from "primereact/radiobutton";
 
 export interface DialogProps {
   visible: boolean;
@@ -14,6 +15,20 @@ export interface DialogProps {
   placeholder?: string;
   submitButtonLabel: string;
   trashDial?: boolean;
+  selectedPriority?: {
+    name: string;
+    key: string;
+  };
+  setSelectedPriority?: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      key: string;
+    }>
+  >;
+  tagPriorityList?: {
+    name: string;
+    key: string;
+  }[];
   onSubmition: (e: any) => void;
 }
 
@@ -29,6 +44,9 @@ const Dialog: React.FC<DialogProps> = (props) => {
     submitButtonLabel,
     onSubmition,
     trashDial,
+    selectedPriority,
+    setSelectedPriority,
+    tagPriorityList,
   } = props;
 
   const trashComp = (
@@ -56,6 +74,9 @@ const Dialog: React.FC<DialogProps> = (props) => {
     </>
   );
 
+  const tagRadioBtn =
+    tagPriorityList && selectedPriority && setSelectedPriority;
+
   return (
     <>
       {trashDial ? (
@@ -78,6 +99,28 @@ const Dialog: React.FC<DialogProps> = (props) => {
               placeholder={placeholder}
             />
             <Button label={submitButtonLabel} onClick={onSubmition} />
+            {tagRadioBtn && (
+              <div className="radioBtnCard">
+                <div className="radioBtnFlex">
+                  {tagPriorityList.map((priority) => {
+                    return (
+                      <div key={priority.key} className="radioaBtnItem">
+                        <RadioButton
+                          inputId={priority.key}
+                          name="category"
+                          value={priority}
+                          onChange={(e) => setSelectedPriority(e.value)}
+                          checked={selectedPriority.key === priority.key}
+                        />
+                        <label htmlFor={priority.key} className="ml-2">
+                          {priority.name}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </form>
         </Dial>
       )}
