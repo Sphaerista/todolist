@@ -16,5 +16,16 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules"]
+  // "include": [
+  //   "./src/**/*.tsx",
+  //   "./src/**/*.ts",
+  //   "src/components/sub/SubTask.test.jsx",
+  //   "src/components/sub/SubTaskLowest.test.jsx",
+  //   "src/shared/Dialog.test.jsx",
+  //   "src/shared/Input.test.jsx",
+  //   "src/shared/SubTaskInput.test.jsx",
+  //   "src/App.test.jsx"
+  // ]
 }
