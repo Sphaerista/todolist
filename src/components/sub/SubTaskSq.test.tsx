@@ -45,7 +45,7 @@ test("renders Input", () => {
     <PrimeReactProvider>
       <TodoProvider>
         <SubTaskSq
-          onRemoveSubtask={onRemoveSubtask}
+          // onRemoveSubtask={onRemoveSubtask}
           subtask={subTask}
           todo={mockTodo}
         />

@@ -3,6 +3,7 @@ import TodoItem from "./TodoItem";
 import { Todo, TodoProvider } from "../context/TodoContext";
 import Dialog from "../shared/Dialog";
 import { PrimeReactProvider } from "primereact/api";
+import { Dialog as Dial } from "primereact/dialog";
 
 const mockTodo: Todo = {
   id: 1705867809635,
@@ -73,14 +74,9 @@ test("renders TodoItem, check handler and remove todo", () => {
   expect(popupButton).toBeInTheDocument();
   fireEvent.click(popupButton);
 
-  const editTaskButton = getByTestId("edit-task-button");
-  expect(editTaskButton).toBeInTheDocument();
-  fireEvent.click(editTaskButton);
-
   const removeTodoButton = getByTestId("remove-todo-button");
   expect(removeTodoButton).toBeInTheDocument();
   fireEvent.click(removeTodoButton);
-
   render(
     <PrimeReactProvider>
       <TodoProvider>
@@ -97,9 +93,84 @@ test("renders TodoItem, check handler and remove todo", () => {
     </PrimeReactProvider>
   );
 
+  //   const dialRemoveTodoButtonNo = getByTestId("dial_btn_remove_no");
+  //   expect(dialRemoveTodoButtonNo).toBeInTheDocument();
+  //   fireEvent.click(dialRemoveTodoButtonNo);
+  //   fireEvent.click(removeTodoButton);
   const dialRemoveTodoButton = getByTestId("dial_btn_remove");
   expect(dialRemoveTodoButton).toBeInTheDocument();
   fireEvent.click(dialRemoveTodoButton);
+});
+
+test("renders TodoItem, removes todo but no", () => {
+  const { getByTestId } = render(
+    <PrimeReactProvider>
+      <TodoProvider>
+        <TodoItem todo={mockTodo} />
+      </TodoProvider>
+    </PrimeReactProvider>
+  );
+
+  // Check if the popup button input is rendered
+  const popupButton = getByTestId("popup-button");
+  expect(popupButton).toBeInTheDocument();
+  fireEvent.click(popupButton);
+
+  const removeTodoButton = getByTestId("remove-todo-button");
+  expect(removeTodoButton).toBeInTheDocument();
+  fireEvent.click(removeTodoButton);
+  render(
+    <PrimeReactProvider>
+      <TodoProvider>
+        <Dialog
+          setNewName={setNewName}
+          visibleOffFunc={visibleOffFunc}
+          visible={visible}
+          header={"Are you sure to delete todo?"}
+          submitButtonLabel="Add"
+          onSubmition={onSubmition}
+          trashDial={true}
+        />
+      </TodoProvider>
+    </PrimeReactProvider>
+  );
+
+  const dialRemoveTodoButtonNo = getByTestId("dial_btn_remove_no");
+  expect(dialRemoveTodoButtonNo).toBeInTheDocument();
+  fireEvent.click(dialRemoveTodoButtonNo);
+});
+
+test("click on multiple buttons", () => {
+  const { getByTestId } = render(
+    <PrimeReactProvider>
+      <TodoProvider>
+        <TodoItem todo={mockTodo} />
+      </TodoProvider>
+    </PrimeReactProvider>
+  );
+
+  // Check if the popup button input is rendered
+  const popupButton = getByTestId("popup-button");
+  expect(popupButton).toBeInTheDocument();
+  // Simulate a click on the popup button to show/hide buttons
+  fireEvent.click(popupButton);
+
+  // Check if the popup button input is rendered
+  const vsibleSubtaskButton = getByTestId("visible-subtask-button");
+  expect(vsibleSubtaskButton).toBeInTheDocument();
+  fireEvent.click(vsibleSubtaskButton);
+  // Simulate a click on the popup button to show/hide buttons
+  const vsibleTagButton = getByTestId("visible-tag-button");
+  expect(vsibleTagButton).toBeInTheDocument();
+  fireEvent.click(vsibleTagButton);
+  // Simulate a click on the popup button to show/hide buttons
+  const showSubtaskButton = getByTestId("show-subtask-button");
+  expect(showSubtaskButton).toBeInTheDocument();
+  fireEvent.click(showSubtaskButton);
+  // Simulate a click on the popup button to show/hide buttons
+  const editTaskButton = getByTestId("edit-task-button");
+  expect(editTaskButton).toBeInTheDocument();
+  fireEvent.click(editTaskButton);
 });
 
 test("renders TodoItem and add tag", () => {
@@ -116,7 +187,6 @@ test("renders TodoItem and add tag", () => {
   expect(popupButton).toBeInTheDocument();
   // Simulate a click on the popup button to show/hide buttons
   fireEvent.click(popupButton);
-
   render(
     <PrimeReactProvider>
       <TodoProvider>
@@ -136,15 +206,21 @@ test("renders TodoItem and add tag", () => {
     </PrimeReactProvider>
   );
   // write in input
+  const dialogAddTag = getByTestId("dial");
+  expect(dialogAddTag).toBeInTheDocument();
+
   const input = getByTestId("input_in_dialog");
+  expect(input).toBeInTheDocument();
   fireEvent.change(input, { target: { value: "newTag" } });
   // clic on button
-  const mockEvent = { preventDefault: jest.fn() };
+  const mockEvent = {
+    preventDefault: jest.fn(),
+  };
+  //   const mockEvent = "string";
   const submissionButton = getByTestId("submission_button");
   expect(submissionButton).toBeInTheDocument();
   fireEvent.click(submissionButton, mockEvent);
-
-  const removeTodoButton = getByTestId("remove-todo-button");
-  expect(removeTodoButton).toBeInTheDocument();
-  fireEvent.click(removeTodoButton);
 });
+
+// npm test -- --testPathPattern=src/components/TodoItem.test.tsx
+// npm run test -- --coverage
