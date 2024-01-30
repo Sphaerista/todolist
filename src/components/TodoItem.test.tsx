@@ -216,6 +216,7 @@ test("renders TodoItem and add tag", () => {
   const mockEvent = {
     preventDefault: jest.fn(),
   };
+  // const mockSubmission = jest.fn();
   //   const mockEvent = "string";
   const submissionButton = getByTestId("submission_button");
   expect(submissionButton).toBeInTheDocument();
