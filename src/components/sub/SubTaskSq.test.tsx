@@ -23,14 +23,14 @@ const mockTodo: Todo = {
 
 const subTask: Todo = {
   id: 1705867819971,
-  text: "codecove",
+  text: "codecove todo",
   completed: false,
   depth: 1,
   tag: undefined,
   subtasks: [
     {
       id: 1705867819972,
-      text: "codecove",
+      text: "codecove subtask",
       completed: false,
       depth: 2,
       tag: undefined,
@@ -53,12 +53,20 @@ test("renders Input", () => {
     </PrimeReactProvider>
   );
 
-  const lowest = getByTestId("lowest_component");
-  expect(lowest).toBeInTheDocument();
+  const toggleTaskButton = getByTestId("toggle-task-button");
+  expect(toggleTaskButton).toBeInTheDocument();
+  fireEvent.click(toggleTaskButton, 1705867819971);
+  fireEvent.click(toggleTaskButton, 1705867819971);
 
+  const removeSubtaskButton = getByTestId("remove-subtask-button");
+  expect(removeSubtaskButton).toBeInTheDocument();
+  fireEvent.click(removeSubtaskButton, 1705867819971);
+  fireEvent.click(removeSubtaskButton, 1705867819971);
   //   const input = getByTestId("input_in_input");
   //   fireEvent.change(input, { target: { value: "New Input" } });
 
   //   const addTodoBtn = getByTestId("add-todo-button");
   //   fireEvent.click(addTodoBtn);
 });
+
+// npm test -- --testPathPattern=src/components/TodoItem.test.tsx
