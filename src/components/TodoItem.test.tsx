@@ -4,6 +4,7 @@ import { Todo, TodoProvider } from "../context/TodoContext";
 import Dialog from "../shared/Dialog";
 import { PrimeReactProvider } from "primereact/api";
 import { Dialog as Dial } from "primereact/dialog";
+import { useState } from "react";
 
 const mockTodo: Todo = {
   id: 1705867809635,
@@ -223,5 +224,24 @@ test("renders TodoItem and add tag", () => {
   fireEvent.click(submissionButton, mockEvent);
 });
 
+test("mock add tag", () => {
+  const { getByTestId } = render(
+    <PrimeReactProvider>
+      <TodoProvider>
+        <TodoItem todo={mockTodoWithoutTag} />
+      </TodoProvider>
+    </PrimeReactProvider>
+  );
+
+  const addTag = jest.fn((idTag, tagName, low) => {
+    (idTag = 1705867809635), (tagName = "tagName");
+    low = "low";
+    return "mockReturnValue";
+  });
+  // Check if the popup button input is rendered
+  const popupButton = getByTestId("addTagHanlder");
+  expect(popupButton).toBeInTheDocument();
+  fireEvent.click(popupButton, addTag);
+});
 // npm test -- --testPathPattern=src/components/TodoItem.test.tsx
 // npm run test -- --coverage

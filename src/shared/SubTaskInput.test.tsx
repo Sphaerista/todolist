@@ -156,3 +156,37 @@ test("click on delete buttons", () => {
   // dialog.addEventListener("hide", onHideMock);
   // fireEvent.click(dialog);
 });
+
+const editTextHanlder = jest.fn();
+test("edit text handler with custom button", () => {
+  const { getByText, getByTestId } = render(
+    <PrimeReactProvider>
+      <TodoProvider>
+        <SubTaskInput
+          todo={todo}
+          subtask={subtask}
+          onRemoveSubtask={onRemoveSubtaskMock}
+        />
+      </TodoProvider>
+    </PrimeReactProvider>
+  );
+
+  // Check if the popup button input is rendered
+  const editTextButton = getByTestId("editTextHanlder");
+  expect(editTextButton).toBeInTheDocument();
+  // Simulate a click on the popup button to show/hide buttons
+  fireEvent.click(editTextButton);
+
+  // Check if the delete button exists
+  // const deleteButton = getByTestId("delete-button");
+  // expect(deleteButton).toBeInTheDocument();
+  // fireEvent.click(deleteButton, () =>
+  //   onRemoveSubtaskMock(1705867809635, 1705867819971)
+  // );
+
+  // const onHideMock = jest.fn();
+  // const dialog = getByTestId("dialog");
+  // Attach the mock function to the input's onChange
+  // dialog.addEventListener("hide", onHideMock);
+  // fireEvent.click(dialog);
+});
