@@ -1,5 +1,5 @@
-[GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Sphaerista/todolist/main.yml)
-[Codecov](https://img.shields.io/codecov/c/github/Sphaerista/todolist)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Sphaerista/todolist/main.yml)]()
+[![Codecov](https://img.shields.io/codecov/c/github/Sphaerista/todolist)]()
 
 # Video
 
