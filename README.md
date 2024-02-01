@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+[GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Sphaerista/todolist/main.yml)
+[Codecov](https://img.shields.io/codecov/c/github/Sphaerista/todolist)
+
+# Video
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
