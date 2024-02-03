@@ -1,0 +1,158 @@
+main {
+  /* background-color: slategrey;
+  height: 100vh; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* chatbot elements */
+
+.chatbot-container {
+  background-color: var(--highlight-bg);
+  width: 360px;
+  min-height: 380px;
+  border-radius: var(--border-rad-lg);
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1em 1rem;
+  color: #fcfcfc;
+  border-radius: 1rem;
+}
+
+.chatbot-container > * {
+  padding: 0.5em;
+}
+
+.chatbot-header {
+  display: flex;
+  justify-content: end;
+}
+
+.logo {
+  grid-area: logo;
+  width: 45px;
+}
+
+.supportId {
+  font-size: 10px;
+  grid-area: supportId;
+  text-align: right;
+}
+
+.chatbot-conversation-container {
+  max-height: 250px;
+  min-height: 250px;
+  overflow-y: scroll;
+  margin: 0em 0 1em;
+}
+
+/* stop ugly scroll bar on some browsers */
+.chatbot-conversation-container::-webkit-scrollbar {
+  display: none;
+}
+
+.chatbot-conversation-container::-moz-scrollbar {
+  display: none;
+}
+
+.speech {
+  padding: 0em;
+  margin: 0em auto;
+  max-width: 260px;
+  color: var(--light-text);
+  min-width: 100%;
+  border-radius: var(--border-rad-lg);
+}
+
+.speech:first-child {
+  margin-top: 0;
+}
+
+.speech-assistant {
+  background: var(--primary-900);
+  border-radius: 0 1.5em 1.5em 1.5em;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.speech-user {
+  background: var(--primary-700);
+  border-radius: 1em 0 1em 1em;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+}
+
+.chatbot-input-container {
+  display: flex;
+}
+
+/* input[type="text"],
+button {
+  background-color: transparent;
+  border: 1px solid var(--medium-light-text);
+  border-radius: 15px;
+  padding: 1em;
+}
+
+
+} */
+.submit-btn {
+  background: var(--primary-900);
+  color: white;
+  box-shadow: none;
+  border-radius: 0;
+  border: 1px solid var(--primary-900);
+}
+.user-input {
+  /* color: #fcfcfc; */
+  width: 100%;
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.send-btn-icon {
+  width: 20px;
+  display: block;
+}
+
+/* text */
+
+/* h1 {
+  font-size: 15px;
+  color: var(--light-text);
+  grid-area: title;
+}
+
+h2,
+p {
+  color: var(--medium-light-text);
+}
+
+h2 {
+  font-size: 11px;
+  font-weight: 700;
+  grid-area: subtitle;
+  text-transform: uppercase;
+} */
+
+/* The cursor */
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blinking-cursor::after {
+  content: "|";
+  font-weight: 700;
+  display: inline-block;
+  animation: cursor-blink 0.5s steps(2) infinite;
+}

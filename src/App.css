@@ -67,3 +67,22 @@ button {
   color: var(--indigo-800);
   /* border: 1px solid #000cb8; */
 }
+.App-chat {
+  text-align: center;
+  margin: auto;
+  max-width: 800px;
+  position: relative;
+}
+.open-chat {
+  box-shadow: none;
+  border: none;
+  position: absolute;
+  right: 4px;
+  color: aliceblue;
+  background-color: var(--primary-900);
+  /* width: 60px;
+  height: 60px; */
+}
+.open-chat:hover {
+  background-color: var(--primary-800);
+}

@@ -2,6 +2,7 @@ import "./App.css";
 import "./index.css";
 import Input from "./shared/Input";
 import TodoList from "./components/TodoList";
+import AIUI from "./ai/AIUI";
 import { PrimeReactContext } from "primereact/api";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "primereact/button";
@@ -10,6 +11,7 @@ import OpenAI from "openai";
 function App() {
   const { changeTheme } = useContext(PrimeReactContext);
   const [theme, setTheme] = useState("dark");
+  const [openChat, setOpentChat] = useState(false);
 
   const changeMyTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -20,6 +22,10 @@ function App() {
         "app-theme",
         /* istanbul ignore next */ () => setTheme(newTheme)
       );
+  };
+
+  const openChatHandler = () => {
+    setOpentChat((prev) => !prev);
   };
 
   return (
@@ -39,11 +45,20 @@ function App() {
           </Button>
         </div>
       </div>
-      <div className="App">
+      <div className="App-chat">
         <Input />
         <TodoList />
-        {/* <button onClick={workPlease}>AI</button> */}
+        <Button
+          className="open-chat"
+          // icon='pi pi-comment'
+          rounded
+          size="large"
+          onClick={openChatHandler}
+        >
+          AI
+        </Button>
       </div>
+      {openChat && <AIUI />}
     </div>
   );
 }
