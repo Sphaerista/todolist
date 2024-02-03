@@ -1,15 +1,17 @@
 .todo-item {
-  border-top: 4px solid var(--primary-500);
-  padding: 10px;
+  /* padding: 10px 0; */
   margin: 10px 0;
   list-style-type: none;
   position: relative;
 }
+.todo-item:not(:last-child) {
+  border-bottom: 4px solid var(--primary-500);
+}
 .main_li {
   display: flex;
-  justify-content: space-between;
-  padding-left: 15px;
-  margin: 10px 0;
+  flex-direction: column;
+  padding: 0px 0px 0 37px;
+  margin: 5px 0;
   position: relative;
 }
 
@@ -30,10 +32,12 @@
 .title_and_tags {
   display: grid;
   grid-template-columns: 1fr auto 40%;
+  padding-bottom: 5px;
 }
 .title_and_tags2 {
   display: grid;
   grid-template-columns: 1fr 30%;
+  padding-bottom: 5px;
 }
 .toggle-and-text {
   display: flex;
@@ -99,10 +103,14 @@
   display: flex;
 }
 
+.subtasksq {
+  width: 100%;
+}
+
 .lowest {
   display: flex;
   justify-content: space-between;
-  padding: 5px 20px 5px 30px;
+  padding: 5px 10px 5px 37px;
 }
 
 .radioBtnCard {
@@ -147,11 +155,19 @@
   display: flex;
 }
 
+.subtask-li {
+  display: flex;
+  flex-direction: row;
+}
+
 .show_subtasks {
   position: absolute;
   right: 0.5rem;
   border-radius: 50%;
 }
+/* .speedial > .p-speeddial-button.p-button.p-button-icon-only {
+  right: 10rem;
+} */
 
 /* prime */
 .p-speeddial {
@@ -169,4 +185,7 @@
 
 .outline_none:focus {
   box-shadow: none;
+}
+.subtask_popup_btn > .p-speeddial {
+  top: 0;
 }

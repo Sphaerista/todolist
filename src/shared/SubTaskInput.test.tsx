@@ -50,6 +50,8 @@ test("renders SubTaskInput component and click buttons", () => {
           todo={todo}
           subtask={subtask}
           onRemoveSubtask={onRemoveSubtaskMock}
+          // showSubtasks={false}
+          // setShowSubtasks={() => {}}
         />
       </TodoProvider>
     </PrimeReactProvider>
@@ -100,6 +102,8 @@ test("check vissibleOffFunction", () => {
           todo={todo}
           subtask={subtask}
           onRemoveSubtask={() => {}}
+          // showSubtasks={false}
+          // setShowSubtasks={() => {}}
         />
       </TodoProvider>
     </PrimeReactProvider>
@@ -132,6 +136,8 @@ test("click on delete buttons", () => {
           todo={todo}
           subtask={subtask}
           onRemoveSubtask={onRemoveSubtaskMock}
+          // showSubtasks={false}
+          // setShowSubtasks={() => {}}
         />
       </TodoProvider>
     </PrimeReactProvider>
@@ -166,6 +172,8 @@ test("edit text handler with custom button", () => {
           todo={todo}
           subtask={subtask}
           onRemoveSubtask={onRemoveSubtaskMock}
+          // showSubtasks={false}
+          // setShowSubtasks={() => {}}
         />
       </TodoProvider>
     </PrimeReactProvider>

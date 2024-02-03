@@ -123,9 +123,12 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
       command: () => setVisibleTrash(true),
     },
     {
+      visible: todo.subtasks.length > 0,
       label: "ShowSubtask",
       icon: showSubtasks ? "pi pi-angle-up" : "pi pi-angle-down",
-      command: () => setShowSubtasks((prev) => !prev),
+      command: () => {
+        setShowSubtasks((prev) => !prev);
+      },
     },
     {
       label: "AddTag",
@@ -166,7 +169,7 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
               className="outline_none"
               rounded
               outlined={!todo.completed}
-              icon={todo.completed ? "pi pi-check" : "pi pi-check"}
+              icon={todo.completed ? "pi pi-check" : "pi pi"}
               onClick={() => addToggleHandler(todo.id)}
             />
             <div className={todo.completed ? "text-completed" : "text"}>
@@ -189,7 +192,9 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
               </button>
             </div>
           )}
-          <SpeedDial model={items} direction="left" />
+          {/* <div className="speedial"> */}
+          <SpeedDial className="speedial" model={items} direction="left" />
+          {/* </div> */}
         </div>
         {todo.subtasks.length > 0 && showSubtasks && <SubTask todo={todo} />}
         <Toast ref={toast} />

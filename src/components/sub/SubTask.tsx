@@ -35,7 +35,7 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
                   className="outline_none"
                   rounded
                   outlined={!subtask.completed}
-                  icon={subtask.completed ? "pi pi-check" : "pi pi-check"}
+                  icon={subtask.completed ? "pi pi-check" : "pi pi"}
                   onClick={() => addToggleHandler(subtask.id)}
                 />
                 <div className={subtask.completed ? "text-completed" : "text"}>
@@ -43,16 +43,17 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
                 </div>
               </div>
             </div>
-            <div className="input_task">
-              <SubTaskInput
-                key={subtask.id + 2}
-                subtask={subtask}
-                todo={todo}
-                onRemoveSubtask={removeSubTaskHandler}
-              />
-            </div>
+            {/* <div className="input_task"> */}
+            <SubTaskInput
+              key={subtask.id + 2}
+              subtask={subtask}
+              todo={todo}
+              onRemoveSubtask={removeSubTaskHandler}
+              // showSubtasks={showSubtasks}
+              // setShowSubtasks={setShowSubtasks}
+            />
+            {/* </div> */}
           </li>
-          <SubTaskSq key={subtask.id + 3} subtask={subtask} todo={todo} />
         </>
       ))}
     </ul>

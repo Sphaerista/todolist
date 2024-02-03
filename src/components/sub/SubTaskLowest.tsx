@@ -20,7 +20,7 @@ const SubTaskLowest: React.FC<SubTaskLowestProps> = (props) => {
           className="outline_none"
           rounded
           outlined={!task.completed}
-          icon={task.completed ? "pi pi-check" : "pi pi-check"}
+          icon={task.completed ? "pi pi-check" : "pi pi"}
           onClick={() => addToggleHandler(task.id)}
         />
         <div

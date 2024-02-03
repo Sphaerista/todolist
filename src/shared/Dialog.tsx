@@ -59,7 +59,7 @@ const Dialog: React.FC<DialogProps> = /* istanbul ignore next */ (props) => {
           visible={visible}
           draggable={false}
           resizable={false}
-          style={{ width: "30vw" }}
+          style={{ width: "20rem" }}
           onHide={() => visibleOffFunc()}
         >
           <div className="dial_btns_remove">
@@ -95,7 +95,7 @@ const Dialog: React.FC<DialogProps> = /* istanbul ignore next */ (props) => {
           visible={visible}
           draggable={false}
           resizable={false}
-          style={{ width: "30vw" }}
+          style={{ width: "20rem" }}
           onHide={() => visibleOffFunc()}
         >
           <form>
