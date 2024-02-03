@@ -1,5 +1,7 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Sphaerista/todolist/main.yml)]()
 [![Codecov](https://img.shields.io/codecov/c/github/Sphaerista/todolist)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/sphaerista/todolist)]()
+[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCq-Fj5jknLsUf-MWSy4_brA)]()
 
 # Video
 
