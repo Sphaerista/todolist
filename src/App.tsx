@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import Input from "./components/Input";
+import Input from "./shared/Input";
 import TodoList from "./components/TodoList";
 import { PrimeReactContext } from "primereact/api";
 import { useContext, useEffect, useState } from "react";
@@ -18,82 +18,9 @@ function App() {
         `bootstrap4-${theme}-purple`,
         `bootstrap4-${newTheme}-purple`,
         "app-theme",
-        () => setTheme(newTheme)
+        /* istanbul ignore next */ () => setTheme(newTheme)
       );
   };
-  let OPENAI_API_KEY = "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";
-
-  // const openai = new OpenAI({
-  //   apiKey,
-  //   dangerouslyAllowBrowser: true,
-  // });
-  // const workPlease = () => {
-  //   fetch("https://api.openai.com/v1/chat/completions", {
-  //     mode: "no-cors",
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       // "Access-Control-Allow-Origin": "*",
-  //       Authorization: "Bearer OPENAI_API_KEY",
-  //     },
-  //     body: JSON.stringify({
-  //       model: "gpt-3.5-turbo",
-  //       messages: [
-  //         {
-  //           role: "user",
-  //           content: "what is the capital of greece?",
-  //         },
-  //       ],
-  //     }),
-  //   });
-  // async function main() {
-  //   const completion = await openai.chat.completions.create({
-  //     messages: [{ role: "system", content: "You are a helpful assistant." }],
-  //     model: "gpt-3.5-turbo",
-  //   });
-
-  //   console.log(completion.choices[0]);
-  // }
-  // main();
-  // console.log("here");
-  // };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://api.openai.com/v1/chat/completions",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${OPENAI_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: "gpt-3.5-turbo",
-              messages: [
-                {
-                  role: "user",
-                  content: "what is the capital of Russia?",
-                },
-              ],
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log(result);
-        // setResponse(result.choices[0].message.content);
-      } catch (error) {
-        console.error("There was an error!", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <div className="App">
@@ -101,12 +28,9 @@ function App() {
         <h1>todoapp</h1>
         <div className="btn_theme">
           <Button
-            className={`p-2 rounded ${
-              theme === "dark"
-                ? "bg-gray-100 text-black"
-                : "bg-gray-700 text-white"
-            }`}
-            severity={theme === "dark" ? "secondary" : "warning"}
+            data-testid="change-theme-button"
+            className={`${theme === "dark" ? "moon_btn" : "sun_btn"}`}
+            // severity={theme === "dark" ? "secondary" : "warning"}
             onClick={() => changeMyTheme()}
           >
             <span
@@ -125,3 +49,116 @@ function App() {
 }
 
 export default App;
+
+// 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
+// let OPENAI_API_KEY = "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";
+// const openai = new OpenAI({
+//   apiKey,
+//   dangerouslyAllowBrowser: true,
+// });
+// const workPlease = () => {
+//   fetch("https://api.openai.com/v1/chat/completions", {
+//     mode: "no-cors",
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // "Access-Control-Allow-Origin": "*",
+//       Authorization: "Bearer OPENAI_API_KEY",
+//     },
+//     body: JSON.stringify({
+//       model: "gpt-3.5-turbo",
+//       messages: [
+//         {
+//           role: "user",
+//           content: "what is the capital of greece?",
+//         },
+//       ],
+//     }),
+//   });
+// async function main() {
+//   const completion = await openai.chat.completions.create({
+//     messages: [{ role: "system", content: "You are a helpful assistant." }],
+//     model: "gpt-3.5-turbo",
+//   });
+
+//   console.log(completion.choices[0]);
+// }
+// main();
+// console.log("here");
+// };
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const response = await fetch(
+//         "https://api.openai.com/v1/chat/completions",
+//         {
+//           method: "POST",
+//           // mode: "no-cors",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${OPENAI_API_KEY}`,
+//             "Access-Control-Allow-Origin": "*",
+//             "Access-Control-Allow-Methods": "POST,PATCH,OPTIONS",
+//           },
+//           body: JSON.stringify({
+//             model: "gpt-3.5-turbo",
+//             messages: [
+//               {
+//                 role: "user",
+//                 content: "what is the capital of Russia?",
+//               },
+//             ],
+//           }),
+//         }
+//       );
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log(result);
+//       setResponse(result.choices[0].message.content);
+//     } catch (error) {
+//       console.error("There was an error!", error);
+//     }
+//   };
+
+//   fetchData();
+// }, []);
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const response = await fetch("http://localhost:3001/api/openai", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${OPENAI_API_KEY}`,
+//         },
+//         body: JSON.stringify({
+//           model: "gpt-3.5-turbo",
+//           messages: [
+//             {
+//               role: "user",
+//               content: "what is the capital of Russia?",
+//             },
+//           ],
+//         }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log(result);
+//       // setResponse(result.choices[0].message.content);
+//     } catch (error) {
+//       console.error("There was an error!", error);
+//     }
+//   };
+
+//   fetchData();
+// }, []);

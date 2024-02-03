@@ -16,9 +16,12 @@ const SubTaskLowest: React.FC<SubTaskLowestProps> = (props) => {
     <div key={task.id} className="lowest">
       <div className="toggle-and-text">
         <Button
-          data-testid="toggle-button"
+          data-testid="toggle-task-button"
+          className="outline_none"
+          rounded
+          outlined={!task.completed}
+          icon={task.completed ? "pi pi-check" : "pi pi-check"}
           onClick={() => addToggleHandler(task.id)}
-          icon={task.completed ? "pi pi-times" : "pi pi-check"}
         />
         <div
           key={task.id}
@@ -28,10 +31,11 @@ const SubTaskLowest: React.FC<SubTaskLowestProps> = (props) => {
         </div>
       </div>
       <Button
-        data-testid="remove-button"
-        onClick={() => removeSubTaskHandler(subtask.id, task.id)}
-        severity="danger"
+        data-testid="remove-subtask-button"
         icon="pi pi-trash"
+        severity="danger"
+        rounded
+        onClick={() => removeSubTaskHandler(subtask.id, task.id)}
       />
     </div>
   );

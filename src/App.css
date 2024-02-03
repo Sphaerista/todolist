@@ -1,5 +1,16 @@
 .App {
   text-align: center;
+  margin: auto;
+  max-width: 800px;
+}
+
+ul {
+  padding: 0;
+}
+
+button {
+  height: fit-content;
+  flex-shrink: 0;
 }
 
 .App-logo {
@@ -44,4 +55,15 @@
 .btn_theme {
   display: flex;
   align-items: center;
+}
+
+.moon_btn {
+  background-color: var(--indigo-900);
+  color: var(--yellow-300);
+  /* border: 1px solid #ffdd1c; */
+}
+.sun_btn {
+  background-color: var(--yellow-300);
+  color: var(--indigo-800);
+  /* border: 1px solid #000cb8; */
 }

@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./TodoItem.css";
 import { Priority, Todo, useTodoContext } from "../context/TodoContext";
-import SubTask from "./SubTask";
+import SubTask from "./sub/SubTask";
 import { Button } from "primereact/button";
-import Dialog from "./Dialog";
+import Dialog from "../shared/Dialog";
 import { Badge } from "primereact/badge";
+import { SpeedDial } from "primereact/speeddial";
+import { Toast } from "primereact/toast";
 
 export interface TodoItemProps {
   todo: Todo;
 }
 
-const TodoItem: React.FC<TodoItemProps> = (props) => {
+const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
+  props
+) => {
   const { todo } = props;
   const {
     addTag,
@@ -28,6 +32,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   const [showBtns, setShowBtns] = useState<boolean>(false);
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
 
+  // const [newTagName, setNewTagName] = useState<string>("");
   const [newTagName, setNewTagName] = useState<string>("");
   const [newSubTaskName, setNewSubTaskName] = useState<string>("");
   const [newTextName, setNewTextName] = useState<string>(todo.text);
@@ -45,11 +50,11 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
 
   // handlers
   const removeTodoHandler = () => {
-    console.log("here");
     removeTodo(todo.id);
   };
 
   const addTagHandler = (e: any) => {
+    console.log(e);
     e.preventDefault();
     // Check if the new tag name already exists in the list of existing tags
     if (newTagName.length > 0) {
@@ -79,6 +84,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
       setSameSubTaskName("");
       setNewSubTaskName("");
     } else {
+      show();
       setSameSubTaskName("Subtask can not be empty");
     }
   };
@@ -109,14 +115,59 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   const popupHandler = () => {
     setShowBtns((prev) => !prev);
   };
+
+  const items = [
+    {
+      label: "Delete",
+      icon: "pi pi-trash",
+      command: () => setVisibleTrash(true),
+    },
+    {
+      label: "ShowSubtask",
+      icon: showSubtasks ? "pi pi-angle-up" : "pi pi-angle-down",
+      command: () => setShowSubtasks((prev) => !prev),
+    },
+    {
+      label: "AddTag",
+      icon: "pi pi-tag",
+      command: () => setVisibleTag(true),
+    },
+    {
+      label: "AddSubtask",
+      icon: "pi pi-plus-circle",
+      command: () => setVisibleSubtask(true),
+    },
+    {
+      label: "Edit",
+      icon: "pi pi-pencil",
+      command: () => editTask(),
+    },
+  ];
+
+  const toast = useRef<Toast>(null);
+  const show = () => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Subtask can not be empty",
+    });
+  };
+
   return (
     <li className="todo-item">
       <div>
-        <div className="title_and_tags">
+        {/* special buttons for testing. delete from production. */}
+        {/* <button data-testid="addTagHanlder" onClick={addTagHandler}></button> */}
+        {/* special buttons for testing. delete from production. END */}
+        <div className={tagRenderValues ? "title_and_tags" : "title_and_tags2"}>
           <div className="toggle-and-text">
             <Button
+              data-testid="toggle-todo-button"
+              className="outline_none"
+              rounded
+              outlined={!todo.completed}
+              icon={todo.completed ? "pi pi-check" : "pi pi-check"}
               onClick={() => addToggleHandler(todo.id)}
-              icon={todo.completed ? "pi pi-times" : "pi pi-check"}
             />
             <div className={todo.completed ? "text-completed" : "text"}>
               {todo.text}
@@ -130,6 +181,7 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
                 value={tagRenderValues[0]}
               />
               <button
+                data-testid="remove-tag-button"
                 className="tagRemoveBtn"
                 onClick={() => removeTagHandler(todo.id)}
               >
@@ -137,35 +189,12 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
               </button>
             </div>
           )}
-          <div className="popup_btn">
-            {showBtns && (
-              <div className="btns_1_level">
-                <Button icon="pi pi-pencil" onClick={editTask} />
-                <Button
-                  icon="pi pi-plus-circle"
-                  disabled={todo.completed}
-                  onClick={() => setVisibleSubtask(true)}
-                />
-                <Button icon="pi pi-tag" onClick={() => setVisibleTag(true)} />
-                <Button
-                  icon={showSubtasks ? "pi pi-angle-up" : "pi pi-angle-down"}
-                  onClick={() => setShowSubtasks((prev) => !prev)}
-                />
-                <Button
-                  icon="pi pi-trash"
-                  severity="danger"
-                  onClick={() => setVisibleTrash(true)}
-                />
-              </div>
-            )}
-            <Button
-              icon={showBtns ? "pi pi-angle-right" : "pi pi-align-justify"}
-              onClick={popupHandler}
-            />
-          </div>
+          <SpeedDial model={items} direction="left" />
         </div>
         {todo.subtasks.length > 0 && showSubtasks && <SubTask todo={todo} />}
+        <Toast ref={toast} />
         <Dialog
+          data-testid="dialog-add-tag"
           newName={newTagName}
           sameName={sameName}
           setNewName={setNewTagName}

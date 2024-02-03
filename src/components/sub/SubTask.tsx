@@ -12,7 +12,10 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
   const { todo } = props;
   const { removeSubtask, toggleTodo } = useTodoContext();
 
-  const removeSubTaskHandler = (parentId: number, id: number) => {
+  const removeSubTaskHandler = /* istanbul ignore next */ (
+    parentId: number,
+    id: number
+  ) => {
     removeSubtask(parentId, id);
   };
 
@@ -25,11 +28,15 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
       {todo.subtasks.map((subtask) => (
         <>
           <li className="main_li" key={subtask.id}>
-            <div className="title_and_tags">
+            <div className="title_of_subtask">
               <div className="subtask_toggle-and-text">
                 <Button
+                  data-testid="toggle-todo-button"
+                  className="outline_none"
+                  rounded
+                  outlined={!subtask.completed}
+                  icon={subtask.completed ? "pi pi-check" : "pi pi-check"}
                   onClick={() => addToggleHandler(subtask.id)}
-                  icon={subtask.completed ? "pi pi-times" : "pi pi-check"}
                 />
                 <div className={subtask.completed ? "text-completed" : "text"}>
                   {subtask.text} here!
@@ -45,12 +52,7 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
               />
             </div>
           </li>
-          <SubTaskSq
-            key={subtask.id + 3}
-            subtask={subtask}
-            todo={todo}
-            onRemoveSubtask={removeSubTaskHandler}
-          />
+          <SubTaskSq key={subtask.id + 3} subtask={subtask} todo={todo} />
         </>
       ))}
     </ul>

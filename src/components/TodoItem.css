@@ -1,15 +1,16 @@
 .todo-item {
-  border: 1px solid #ccc;
+  border-top: 4px solid var(--primary-500);
   padding: 10px;
   margin: 10px 0;
   list-style-type: none;
-  /* display: flex; */
+  position: relative;
 }
 .main_li {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid wheat;
-  padding: 10px;
+  padding-left: 15px;
+  margin: 10px 0;
+  position: relative;
 }
 
 .text {
@@ -27,15 +28,58 @@
 }
 
 .title_and_tags {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 40%;
+}
+.title_and_tags2 {
+  display: grid;
+  grid-template-columns: 1fr 30%;
 }
 .toggle-and-text {
   display: flex;
+  overflow: hidden;
+}
+.toogle_btn {
+  border-radius: 50%;
+}
+.toogle_btn_unchecked {
+  color: tranparent;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 1px solid;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2.5rem;
 }
 
 .input_task {
   display: flex;
+}
+
+.input_subtask_form {
+  z-index: 2;
+}
+.form_subtas_input {
+  display: flex;
+  margin-right: 3rem;
+}
+
+.btns_for_input {
+  display: flex;
+}
+
+.add-subtask-button {
+  /* border-radius: 50%; */
+  margin-right: 0.5rem;
+}
+
+.show-input-button {
+  /* border-radius: 50%; */
+  margin-right: -1px;
 }
 
 .btns_3_level {
@@ -51,13 +95,14 @@
 }
 
 .popup_btn {
+  justify-self: end;
   display: flex;
 }
 
 .lowest {
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px 10px 10px;
+  padding: 5px 20px 5px 30px;
 }
 
 .radioBtnCard {
@@ -95,4 +140,33 @@
 .tagRemoveBtn:hover {
   background-color: #e97984;
   cursor: pointer;
+}
+
+.subtask_popup_btn,
+.subtask_toggle-and-text {
+  display: flex;
+}
+
+.show_subtasks {
+  position: absolute;
+  right: 0.5rem;
+  border-radius: 50%;
+}
+
+/* prime */
+.p-speeddial {
+  right: 0.5rem;
+}
+
+.p-speeddial-action {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.p-speeddial-button.p-button.p-button-icon-only {
+  width: 2.5rem;
+}
+
+.outline_none:focus {
+  box-shadow: none;
 }
