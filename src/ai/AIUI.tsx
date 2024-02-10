@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ai-styles.css";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const renderedData = [
   { role: "assistant", content: "What are you planning?" },
@@ -41,6 +42,12 @@ export default function App() {
   const [responseText, setResponse] = useState(conversationArr);
   const [renderedText, setRenderedText] = useState(renderedData);
   const [sendText, setSendText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    divRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  });
 
   // fetch
   const fetchData = async () => {
@@ -102,11 +109,26 @@ export default function App() {
     setRenderedText(renderedArr);
   };
   console.log(responseText);
+
+  const loadHandl = () => {
+    setIsLoading(true);
+  };
+  const loadHandlStop = () => {
+    setIsLoading(false);
+  };
   return (
     <>
       <main>
         <section className="chatbot-container">
           <div className="chatbot-header">
+            {/* testing spinner */}
+            <Button severity="info" label="loading" onClick={loadHandl} />
+            <Button
+              severity="info"
+              label="stop loading"
+              onClick={loadHandlStop}
+            />
+            {/* testing spinner */}
             <Button severity="danger" onClick={clearHandler}>
               Clear
             </Button>
@@ -122,6 +144,16 @@ export default function App() {
                 </div>
               ))}
             </div>
+            {isLoading && (
+              <div className="loader">
+                <div className="snippet" data-title="dot-flashing">
+                  <div className="stage">
+                    <div className="dot-flashing"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={divRef} />
           </div>
           <form id="form" className="chatbot-input-container">
             <InputText
