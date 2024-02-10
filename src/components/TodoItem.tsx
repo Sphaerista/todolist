@@ -83,6 +83,7 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
       setVisibleSubtask(false);
       setSameSubTaskName("");
       setNewSubTaskName("");
+      setShowSubtasks(true);
     } else {
       show();
       setSameSubTaskName("Subtask can not be empty");
@@ -106,10 +107,13 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
   };
   const editTaskName = (e: any) => {
     e.preventDefault();
-    console.log(todo.id, newTextName);
-    editTodoText(todo.id, newTextName);
-    setVisibleEditTask(false);
-    setNewTextName(newTextName);
+    if (!newTextName || /^\s*$/.test(newTextName)) {
+      show();
+    } else {
+      editTodoText(todo.id, newTextName);
+      setVisibleEditTask(false);
+      setNewTextName(newTextName);
+    }
   };
 
   const popupHandler = () => {
@@ -136,6 +140,7 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
       command: () => setVisibleTag(true),
     },
     {
+      disabled: todo.completed,
       label: "AddSubtask",
       icon: "pi pi-plus-circle",
       command: () => setVisibleSubtask(true),
@@ -227,6 +232,7 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
         />
         <Dialog
           setNewName={setNewSubTaskName}
+          newName="no"
           // setVisible={setVisibleTrash}
           visibleOffFunc={visibleOffHandler}
           visible={visibleTrash}

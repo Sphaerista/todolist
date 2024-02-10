@@ -69,17 +69,21 @@
 }
 .form_subtas_input {
   display: flex;
-  margin-right: 3rem;
+  margin-left: 37px;
 }
 
 .btns_for_input {
   display: flex;
 }
 
-.add-subtask-button {
-  /* border-radius: 50%; */
-  margin-right: 0.5rem;
+.input_subtask_subtask {
+  border: none;
+  border-radius: 30px;
 }
+/* .add-subtask-button { */
+/* border-radius: 50%; */
+/* margin-right: 0.5rem; */
+/* } */
 
 .show-input-button {
   /* border-radius: 50%; */
@@ -157,7 +161,7 @@
 
 .subtask-li {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .show_subtasks {
@@ -188,4 +192,26 @@
 }
 .subtask_popup_btn > .p-speeddial {
   top: 0;
+}
+
+@media screen and (max-width: 425px) {
+  .title_and_tags {
+    grid-template-columns: 1fr auto 20%;
+  }
+  .input_subtask_subtask {
+  }
+}
+
+@media screen and (max-width: 326px) {
+  .title_and_tags {
+    grid-template-columns: 1fr auto 20%;
+  }
+  .form_subtas_input {
+    margin-left: -37px;
+    margin-top: 5px;
+  }
+  .input_subtask_subtask {
+    width: 204px;
+    box-shadow: none;
+  }
 }
