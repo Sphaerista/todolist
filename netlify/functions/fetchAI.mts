@@ -9,7 +9,7 @@ app.use(json());
 let OPENAI_API_KEY = "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";
 
 app.post("/api/openai", async (req, res) => {
-  console.log(req.body);
+  //   console.log(req.body);
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -17,7 +17,17 @@ app.post("/api/openai", async (req, res) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
-      body: JSON.stringify(req.body),
+      //   body: JSON.stringify(req.body),
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: "what is the capital of greece?",
+          },
+        ],
+        max_tokens: 100,
+      }),
     });
 
     const responseText = await response.text();
