@@ -1,4 +1,4 @@
-const handler = async () => {
+const handler = async (req) => {
   let OPENAI_API_KEY = "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";
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -7,7 +7,7 @@ const handler = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(req.body),
       // body: JSON.stringify({
       //   model: "gpt-3.5-turbo",
       //   messages: [
