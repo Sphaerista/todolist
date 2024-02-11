@@ -1,5 +1,5 @@
 let OPENAI_API_KEY = "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";
-const fetchData = async () => {
+const handler = async () => {
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -27,4 +27,4 @@ const fetchData = async () => {
     // res.status(500).json({ error: "Internal Server Error" });
   }
 };
-module.exports = { fetchData };
+module.exports = { handler };
