@@ -32,7 +32,7 @@ function NewAI() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://todolist-server-seven.vercel.app/",
+        "https://roaring-paletas-13eae2.netlify.app/.netlify/functions/fetchAI",
         {
           method: "POST",
           headers: {
@@ -94,8 +94,8 @@ function NewAI() {
         value={sendText}
         onChange={(e) => setSendText(e.target.value)}
       />
-      {/* <button onClick={sendHandler}>ai</button> */}
-      <button onClick={fetchWorld}>ai</button>
+      <button onClick={sendHandler}>ai</button>
+      {/* <button onClick={fetchWorld}>ai</button> */}
       <div>
         {renderedText.map((item, idx) => (
           <div key={idx}>
