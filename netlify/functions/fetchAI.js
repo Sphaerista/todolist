@@ -21,7 +21,7 @@ const handler = async () => {
     const responseText = await response.json();
     console.log(responseText);
 
-    // return res.json(responseText);
+    return res.json(responseText);
   } catch (error) {
     console.error("There was an error!", error);
     // res.status(500).json({ error: "Internal Server Error" });
