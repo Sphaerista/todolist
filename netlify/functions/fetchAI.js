@@ -18,13 +18,13 @@ const handler = async () => {
         ],
       }),
     });
-    // const responseText = await response.json();
-    // console.log(responseText);
+    const responseText = await response.json();
+    console.log(responseText);
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        reply: response.data,
+        reply: responseText,
       }),
     };
   } catch (error) {
