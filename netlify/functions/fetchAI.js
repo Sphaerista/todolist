@@ -27,4 +27,4 @@ const fetchData = async () => {
     // res.status(500).json({ error: "Internal Server Error" });
   }
 };
-module.export = { fetchData };
+module.exports = { fetchData };
