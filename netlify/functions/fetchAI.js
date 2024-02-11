@@ -1,5 +1,5 @@
 let OPENAI_API_KEY = "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";
-const fetchData = async () => {
+export default fetchData = async () => {
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
