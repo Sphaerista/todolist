@@ -7,6 +7,7 @@ import { PrimeReactContext } from "primereact/api";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "primereact/button";
 import OpenAI from "openai";
+import NewAI from "./ai/newAI";
 
 function App() {
   const { changeTheme } = useContext(PrimeReactContext);
@@ -48,15 +49,18 @@ function App() {
       <div className="App-chat">
         <Input />
         <TodoList />
-        <Button
-          className="open-chat"
-          // icon='pi pi-comment'
-          rounded
-          size="large"
-          onClick={openChatHandler}
-        >
-          AI
-        </Button>
+        <div className="class-for-ai-btn">
+          <Button
+            className="open-chat"
+            // icon='pi pi-comment'
+            rounded
+            size="large"
+            onClick={openChatHandler}
+          >
+            AI
+          </Button>
+        </div>
+        <NewAI />
       </div>
       {openChat && <AIUI />}
     </div>
