@@ -1,12 +1,32 @@
-const handler = async () => {
+import express, { json } from "express";
+import fetch from "node-fetch";
+// import cors from "cors";
+const app = express();
+// const port = 3001;
+
+app.use(json());
+// app.use(cors());
+let OPENAI_API_KEY = "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";
+
+app.post("/api/openai", async (req, res) => {
+  console.log(req.body);
   try {
-    const subject = "world";
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: `hello ${subject}` }),
-    };
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify(req.body),
+    });
+
+    const responseText = await response.text();
+    console.log(responseText);
+    const result = await response.json();
+    // console.log(result);
+    res.json(result);
   } catch (error) {
-    return { statusCode: 0, body: error.toString() };
+    console.error("There was an error!", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-};
-module.exports = { handler };
+});
