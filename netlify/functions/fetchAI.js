@@ -18,10 +18,15 @@ const handler = async () => {
         ],
       }),
     });
-    const responseText = await response.json();
-    console.log(responseText);
+    // const responseText = await response.json();
+    // console.log(responseText);
 
-    return responseText;
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        reply: response.data,
+      }),
+    };
   } catch (error) {
     console.error("There was an error!", error);
     // res.status(500).json({ error: "Internal Server Error" });
