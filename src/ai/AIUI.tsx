@@ -5,24 +5,24 @@ import { Button } from "primereact/button";
 
 const renderedData = [
   { role: "assistant", content: "What are you planning?" },
-  { role: "user", content: "build a house" },
-  {
-    role: "assistant",
-    content:
-      "Tasks for building a house:\n\n1. Design and Planning\n - Hire an architect or designer\n - Discuss requirements and preferences for the house\n - Develop a preliminary design and floor plan\n - Finalize the design and obtain necessary permits and approvals\n\n2. Site Preparation and Foundation\n - Clear the construction site\n - Level the ground\n - Excavate for the foundation\n - Pour the foundation and let it cure\n\n3. Framing and Structural Work\n",
-  },
-  { role: "user", content: "how long will it take" },
-  {
-    role: "assistant",
-    content:
-      "The duration of building a house can vary depending on various factors, such as the size of the house, complexity of the design, availability of labor and materials, weather conditions, and the efficiency of the construction process. Generally, it can take anywhere from several months to over a year to complete a house.",
-  },
-  { role: "user", content: "what tools do i need?" },
-  {
-    role: "assistant",
-    content:
-      "The tools you will need for building a house can vary depending on the specific tasks involved in the construction process. Here are some basic tools that are commonly used:\n\n1. Measuring and Layout Tools:\n - Tape measure\n - Level\n - Square\n - Chalk line\n\n2. Cutting and Shaping Tools:\n - Circular saw\n - Handsaw\n - Jigsaw or reciprocating saw\n - Miter saw or chop saw\n\n3. Fastening",
-  },
+  // { role: "user", content: "build a house" },
+  // {
+  //   role: "assistant",
+  //   content:
+  //     "Tasks for building a house:\n\n1. Design and Planning\n - Hire an architect or designer\n - Discuss requirements and preferences for the house\n - Develop a preliminary design and floor plan\n - Finalize the design and obtain necessary permits and approvals\n\n2. Site Preparation and Foundation\n - Clear the construction site\n - Level the ground\n - Excavate for the foundation\n - Pour the foundation and let it cure\n\n3. Framing and Structural Work\n",
+  // },
+  // { role: "user", content: "how long will it take" },
+  // {
+  //   role: "assistant",
+  //   content:
+  //     "The duration of building a house can vary depending on various factors, such as the size of the house, complexity of the design, availability of labor and materials, weather conditions, and the efficiency of the construction process. Generally, it can take anywhere from several months to over a year to complete a house.",
+  // },
+  // { role: "user", content: "what tools do i need?" },
+  // {
+  //   role: "assistant",
+  //   content:
+  //     "The tools you will need for building a house can vary depending on the specific tasks involved in the construction process. Here are some basic tools that are commonly used:\n\n1. Measuring and Layout Tools:\n - Tape measure\n - Level\n - Square\n - Chalk line\n\n2. Cutting and Shaping Tools:\n - Circular saw\n - Handsaw\n - Jigsaw or reciprocating saw\n - Miter saw or chop saw\n\n3. Fastening",
+  // },
 ];
 
 interface AIUIProps {
