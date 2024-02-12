@@ -88,7 +88,8 @@ export default function App() {
     setSendText("");
   };
 
-  const sendHandler = () => {
+  const sendHandler = (e: any) => {
+    e.preventDefault();
     setResponse((prev) => [
       ...prev,
       {
