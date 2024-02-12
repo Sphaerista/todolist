@@ -1,7 +1,5 @@
 const handler = async (req) => {
-  // let KEY = "";
   try {
-    console.log("here", req);
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -9,15 +7,6 @@ const handler = async (req) => {
         Authorization: `Bearer ${process.env.KEY}`,
       },
       body: req.body,
-      // body: JSON.stringify({
-      //   model: "gpt-3.5-turbo",
-      //   messages: [
-      //     {
-      //       role: "user",
-      //       content: "what is the capital of greece?",
-      //     },
-      //   ],
-      // }),
     });
     const responseText = await response.json();
     console.log(responseText);
