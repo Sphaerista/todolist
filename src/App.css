@@ -92,6 +92,10 @@ button {
   max-width: 300px;
 }
 
+.p-toast-message .p-toast-icon-close {
+  height: revert-layer;
+}
+
 @media screen and (max-width: 425px) {
   body {
     padding: 1rem;

@@ -6,8 +6,6 @@ import AIUI from "./ai/AIUI";
 import { PrimeReactContext } from "primereact/api";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "primereact/button";
-import OpenAI from "openai";
-import NewAI from "./ai/newAI";
 
 function App() {
   const { changeTheme } = useContext(PrimeReactContext);
@@ -61,7 +59,7 @@ function App() {
           </Button>
         </div>
       </div>
-      {openChat && <AIUI />}
+      <AIUI chatON={openChat} />
     </div>
   );
 }

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import "./ai-styles.css";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { ProgressSpinner } from "primereact/progressspinner";
 
 const renderedData = [
   { role: "assistant", content: "What are you planning?" },
@@ -26,7 +25,12 @@ const renderedData = [
   },
 ];
 
-export default function App() {
+interface AIUIProps {
+  chatON: boolean;
+}
+
+const AIUI: React.FC<AIUIProps> = (props) => {
+  const { chatON } = props;
   const conversationArr = [
     {
       role: "system",
@@ -110,16 +114,11 @@ export default function App() {
     setResponse(conversationArr);
     setRenderedText(renderedArr);
   };
+  console.log(chatON);
 
-  // const loadHandl = () => {
-  //   setIsLoading(true);
-  // };
-  // const loadHandlStop = () => {
-  //   setIsLoading(false);
-  // };
   return (
     <>
-      <main>
+      <main className={chatON ? "showChat" : "hideChat"}>
         <section className="chatbot-container">
           <div className="chatbot-header">
             {/* testing spinner */}
@@ -177,7 +176,8 @@ export default function App() {
       </main>
     </>
   );
-}
+};
+export default AIUI;
 
 {
   /* <div className="App">

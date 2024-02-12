@@ -5,6 +5,12 @@ main {
   align-items: center;
   justify-content: center;
 }
+.showChat {
+  display: block;
+}
+.hideChat {
+  display: none;
+}
 
 /* chatbot elements */
 
