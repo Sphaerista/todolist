@@ -52,7 +52,6 @@ const AIUI: React.FC<AIUIProps> = (props) => {
   useEffect(() => {
     divRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   });
-  const token: number = 100;
   // fetch
   const fetchData = async () => {
     try {
@@ -72,7 +71,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
                 content: sendText,
               },
             ],
-            max_tokens: { token },
+            max_tokens: 102,
           }),
         }
       );
