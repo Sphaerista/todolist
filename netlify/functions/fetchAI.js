@@ -1,5 +1,5 @@
 const handler = async (req) => {
-  let OPENAI_API_KEY = "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";
+  let OPENAI_API_KEY = "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";
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
