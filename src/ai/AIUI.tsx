@@ -79,8 +79,9 @@ export default function App() {
       }
 
       const result = await response.json();
-      setResponse((prev) => [...prev, result.choices[0].message]);
-      setRenderedText((prev) => [...prev, result.choices[0].message]);
+      console.log(result, responseText);
+      // setResponse((prev) => [...prev, result.choices[0].message]);
+      // setRenderedText((prev) => [...prev, result.choices[0].message]);
     } catch (error) {
       console.error("There was an error!", error);
     }
@@ -138,7 +139,7 @@ export default function App() {
             id="chatbot-conversation"
           >
             <div className="speech speech-ai">
-              {renderedText.map((item, idx) => (
+              {renderedText?.map((item, idx) => (
                 <div className={`speech-${item.role}`} key={idx}>
                   {item.content}
                 </div>
@@ -169,7 +170,7 @@ export default function App() {
               icon={"pi pi-send"}
               id="submit-btn"
               className="submit-btn"
-              onClick={() => {}}
+              onClick={sendHandler}
             ></Button>
           </form>
         </section>

@@ -57,8 +57,9 @@ function NewAI() {
       }
 
       const result = await response.json();
-      setResponse((prev) => [...prev, result.choices[0].message]);
-      setRenderedText((prev) => [...prev, result.choices[0].message]);
+      console.log(result, responseText);
+      // setResponse((prev) => [...prev, result.choices[0].message]);
+      // setRenderedText((prev) => [...prev, result.choices[0].message]);
     } catch (error) {
       console.error("There was an error!", error);
     }
@@ -97,7 +98,7 @@ function NewAI() {
       <button onClick={sendHandler}>ai</button>
       {/* <button onClick={fetchWorld}>ai</button> */}
       <div>
-        {renderedText.map((item, idx) => (
+        {renderedText?.map((item, idx) => (
           <div key={idx}>
             <p>{item.role}</p>
             {item.content}
