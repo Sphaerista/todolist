@@ -72,6 +72,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
                 content: sendText,
               },
             ],
+            max_tokens: 1000,
           }),
         }
       );
