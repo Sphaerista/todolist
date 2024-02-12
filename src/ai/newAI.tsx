@@ -41,14 +41,23 @@ function NewAI() {
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [
-              ...responseText,
               {
                 role: "user",
-                content: sendText,
+                content: "what is the capital of greece?",
               },
             ],
-            max_tokens: 100,
           }),
+          // body: JSON.stringify({
+          //   model: "gpt-3.5-turbo",
+          //   messages: [
+          //     ...responseText,
+          //     {
+          //       role: "user",
+          //       content: sendText,
+          //     },
+          //   ],
+          //   max_tokens: 100,
+          // }),
         }
       );
 
