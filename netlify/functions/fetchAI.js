@@ -1,12 +1,12 @@
 const handler = async (req) => {
   console.log(req);
-  let KEY = "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";
+  // let KEY = "";
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${KEY}`,
+        Authorization: `Bearer ${process.env.KEY}`,
       },
       body: JSON.stringify(req.body),
       // body: JSON.stringify({

@@ -38,7 +38,7 @@ export default function App() {
     { role: "assistant", content: "What are you planning?" },
   ];
 
-  let OPENAI_API_KEY = "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";
+  // let KEY = "";
   const [responseText, setResponse] = useState(conversationArr);
   const [renderedText, setRenderedText] = useState(renderedData);
   const [sendText, setSendText] = useState("");
@@ -58,7 +58,7 @@ export default function App() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${OPENAI_API_KEY}`,
+            Authorization: `Bearer ${process.env.KEY}`,
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
