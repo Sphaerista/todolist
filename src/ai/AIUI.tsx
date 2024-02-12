@@ -53,12 +53,11 @@ export default function App() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
+        "https://roaring-paletas-13eae2.netlify.app/.netlify/functions/fetchAI",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.KEY}`,
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
@@ -80,8 +79,8 @@ export default function App() {
 
       const result = await response.json();
       console.log(result, responseText);
-      // setResponse((prev) => [...prev, result.choices[0].message]);
-      // setRenderedText((prev) => [...prev, result.choices[0].message]);
+      setResponse((prev) => [...prev, result.reply.choices[0].message]);
+      setRenderedText((prev) => [...prev, result.reply.choices[0].message]);
     } catch (error) {
       console.error("There was an error!", error);
     }

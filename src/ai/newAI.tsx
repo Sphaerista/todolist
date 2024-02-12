@@ -38,15 +38,6 @@ function NewAI() {
           headers: {
             "Content-Type": "application/json",
           },
-          // body: JSON.stringify({
-          //   model: "gpt-3.5-turbo",
-          //   messages: [
-          //     {
-          //       role: "user",
-          //       content: "what is the capital of greece?",
-          //     },
-          //   ],
-          // }),
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [
