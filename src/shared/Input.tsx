@@ -12,6 +12,7 @@ const Input = () => {
     e.preventDefault();
     if (!input || /^\s*$/.test(input)) {
       show();
+      setInput("");
       return;
     }
     addTodo(input, 1);
@@ -23,7 +24,7 @@ const Input = () => {
       severity: "error",
       summary: "Error",
       detail: "Can not be empty",
-      life: 130000,
+      life: 5000,
     });
   };
 
@@ -43,7 +44,6 @@ const Input = () => {
           icon="pi pi-plus-circle"
         />
       </form>
-      <div className="message_input"></div>
       <Toast ref={toast} />
     </div>
   );
