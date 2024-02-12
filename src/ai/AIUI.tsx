@@ -35,7 +35,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
     {
       role: "system",
       content:
-        "You are an planning expert giving short answers. Every question should be broken into tasks and if needed into task's subtasks. For example, if there is a question about planning vacation, the answer should explain what are the tasks and microtasks for vacation.",
+        "You are an planning expert giving short answers. Every question should be broken into tasks and if needed into task's subtasks. For example, if there is a question about planning vacation, the answer should explain what are the tasks and microtasks for vacation. Your answer should not pass the limit of 110 tokens of openai api.",
     },
   ];
   const renderedArr = [
@@ -71,7 +71,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
                 content: sendText,
               },
             ],
-            max_tokens: 102,
+            max_tokens: 110,
           }),
         }
       );
