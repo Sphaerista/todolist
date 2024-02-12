@@ -8,16 +8,16 @@ const handler = async (req) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.KEY}`,
       },
-      body: JSON.stringify(req.body),
-      // body: JSON.stringify({
-      //   model: "gpt-3.5-turbo",
-      //   messages: [
-      //     {
-      //       role: "user",
-      //       content: "what is the capital of greece",
-      //     },
-      //   ],
-      // }),
+      // body: JSON.stringify(req.body),
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: "what is the capital of greece?",
+          },
+        ],
+      }),
     });
     const responseText = await response.json();
     console.log(responseText);
