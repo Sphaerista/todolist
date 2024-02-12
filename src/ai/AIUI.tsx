@@ -88,7 +88,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
     } catch (error) {
       console.error("There was an error!", error);
     }
-    setSendText("");
+    // setSendText("");
   };
 
   const sendHandler = (e: any) => {
@@ -109,12 +109,12 @@ const AIUI: React.FC<AIUIProps> = (props) => {
     ]);
     setIsLoading(true);
     fetchData();
+    setSendText("");
   };
   const clearHandler = () => {
     setResponse(conversationArr);
     setRenderedText(renderedArr);
   };
-  console.log(chatON);
 
   return (
     <>
@@ -129,7 +129,11 @@ const AIUI: React.FC<AIUIProps> = (props) => {
               onClick={loadHandlStop}
             /> */}
             {/* testing spinner */}
-            <Button severity="danger" onClick={clearHandler}>
+            <Button
+              severity="danger"
+              className="clear-btn"
+              onClick={clearHandler}
+            >
               Clear
             </Button>
           </div>
@@ -140,7 +144,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
             <div className="speech speech-ai">
               {renderedText?.map((item, idx) => (
                 <div className={`speech-${item.role}`} key={idx}>
-                  {item.content}
+                  <div>{item.content}</div>
                 </div>
               ))}
             </div>
@@ -166,6 +170,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
               onChange={(e) => setSendText(e.target.value)}
             />
             <Button
+              disabled={isLoading}
               icon={"pi pi-send"}
               id="submit-btn"
               className="submit-btn"
