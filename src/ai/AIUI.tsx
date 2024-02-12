@@ -87,7 +87,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
       setRenderedText((prev) => [...prev, result.reply.choices[0].message]);
     } catch (error) {
       console.error("There was an error!", error);
-      setIsLoading(true);
+      setIsLoading(false);
       setResponse((prev) => [
         ...prev,
         { role: "assistant", content: "Error occured. Pleasy try later." },
