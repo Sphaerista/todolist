@@ -1,7 +1,7 @@
 const handler = async (req) => {
-  console.log("here");
   // let KEY = "";
   try {
+    console.log("here", req);
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
