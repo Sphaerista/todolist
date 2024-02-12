@@ -67,8 +67,8 @@ function NewAI() {
 
       const result = await response.json();
       console.log(result, responseText);
-      // setResponse((prev) => [...prev, result.choices[0].message]);
-      // setRenderedText((prev) => [...prev, result.choices[0].message]);
+      setResponse((prev) => [...prev, result.reply.choices[0].message]);
+      setRenderedText((prev) => [...prev, result.reply.choices[0].message]);
     } catch (error) {
       console.error("There was an error!", error);
     }
