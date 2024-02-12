@@ -144,7 +144,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
             <div className="speech speech-ai">
               {renderedText?.map((item, idx) => (
                 <div className={`speech-${item.role}`} key={idx}>
-                  <div>{item.content}</div>
+                  {item.content}
                 </div>
               ))}
             </div>
