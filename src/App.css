@@ -74,10 +74,12 @@ button {
   position: relative;
 }
 .open-chat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
   box-shadow: none;
   border: none;
-  position: absolute;
-  right: 4px;
   color: aliceblue;
   background-color: var(--primary-900);
   /* width: 60px;
@@ -85,4 +87,28 @@ button {
 }
 .open-chat:hover {
   background-color: var(--primary-800);
+}
+.p-toast {
+  max-width: 300px;
+}
+
+@media screen and (max-width: 425px) {
+  body {
+    padding: 1rem;
+  }
+  .title_and_tags {
+    grid-template-columns: 1fr auto 17%;
+  }
+  .p-speeddial-opened {
+    /* padding: 0.6rem; */
+    background: #282c34;
+    border-radius: 20px;
+  }
+  .chatbot-header {
+    display: flex;
+    justify-content: start;
+  }
+  .p-toast {
+    right: auto !important;
+  }
 }

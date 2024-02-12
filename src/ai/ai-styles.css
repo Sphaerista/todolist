@@ -9,6 +9,10 @@ main {
 /* chatbot elements */
 
 .chatbot-container {
+  position: fixed;
+  bottom: 70px;
+  right: 40px;
+  z-index: 999;
   background-color: var(--highlight-bg);
   width: 425px;
   min-height: 380px;

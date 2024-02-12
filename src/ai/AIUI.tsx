@@ -78,7 +78,7 @@ export default function App() {
       }
 
       const result = await response.json();
-      console.log(result, responseText);
+      setIsLoading(false);
       setResponse((prev) => [...prev, result.reply.choices[0].message]);
       setRenderedText((prev) => [...prev, result.reply.choices[0].message]);
     } catch (error) {
@@ -103,32 +103,32 @@ export default function App() {
         content: sendText,
       },
     ]);
+    setIsLoading(true);
     fetchData();
   };
   const clearHandler = () => {
     setResponse(conversationArr);
     setRenderedText(renderedArr);
   };
-  console.log(responseText);
 
-  const loadHandl = () => {
-    setIsLoading(true);
-  };
-  const loadHandlStop = () => {
-    setIsLoading(false);
-  };
+  // const loadHandl = () => {
+  //   setIsLoading(true);
+  // };
+  // const loadHandlStop = () => {
+  //   setIsLoading(false);
+  // };
   return (
     <>
       <main>
         <section className="chatbot-container">
           <div className="chatbot-header">
             {/* testing spinner */}
-            <Button severity="info" label="loading" onClick={loadHandl} />
+            {/* <Button severity="info" label="loading" onClick={loadHandl} />
             <Button
               severity="info"
               label="stop loading"
               onClick={loadHandlStop}
-            />
+            /> */}
             {/* testing spinner */}
             <Button severity="danger" onClick={clearHandler}>
               Clear

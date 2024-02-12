@@ -60,7 +60,6 @@ function App() {
             AI
           </Button>
         </div>
-        <NewAI />
       </div>
       {openChat && <AIUI />}
     </div>
