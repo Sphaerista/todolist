@@ -96,6 +96,7 @@ main {
   padding: 1rem;
   margin-bottom: 1rem;
   margin-left: 1rem;
+  text-align: start;
 }
 
 .chatbot-input-container {
@@ -167,12 +168,21 @@ main {
     justify-content: end;
     margin-bottom: 0.5rem;
   }
-  .open-chat {
-    position: relative;
-  }
   .class-for-ai-btn {
     display: flex;
     justify-content: end;
+  }
+  /* chat responsiveness */
+  .chatbot-container {
+    width: 96%;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  .chatbot-conversation-container {
+    min-height: 80%;
   }
 }
 
