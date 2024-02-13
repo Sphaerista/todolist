@@ -56,7 +56,7 @@ const AIUI: React.FC<AIUIProps> = (props) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://main--roaring-paletas-13eae2.netlify.app/.netlify/functions/fetchAI",
+        "https://roaring-paletas-13eae2.netlify.app/.netlify/functions/fetchAI",
         {
           method: "POST",
           headers: {
