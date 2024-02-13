@@ -82,6 +82,7 @@ test("renders TodoItem, check handler and remove todo", () => {
     <PrimeReactProvider>
       <TodoProvider>
         <Dialog
+          newName="no"
           setNewName={setNewName}
           visibleOffFunc={visibleOffFunc}
           visible={visible}
@@ -124,6 +125,7 @@ test("renders TodoItem, removes todo but no", () => {
     <PrimeReactProvider>
       <TodoProvider>
         <Dialog
+          newName="no"
           setNewName={setNewName}
           visibleOffFunc={visibleOffFunc}
           visible={visible}
