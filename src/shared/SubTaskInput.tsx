@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTodoContext, Todo } from "../context/TodoContext";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -45,6 +45,7 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
       setNewTaskName("");
       setEmptiness(false);
       setShowBtns(false);
+      setShowSubtasks(true);
     }
   };
 
@@ -83,6 +84,7 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
       command: () => setShowSubtasks((prev) => !prev),
     },
     {
+      disabled: subtask.completed,
       label: "AddSubtask",
       icon: "pi pi-plus-circle",
       command: () => showInputHandler(),
@@ -103,6 +105,8 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
     });
   };
 
+  const cantBeEmpty = !newTaskName || /^\s*$/.test(newTaskName);
+
   return (
     <div className="subtask-li">
       <div className="subtask_popup_btn">
@@ -110,44 +114,6 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
         {/* <button data-testid="editTextHanlder" onClick={editTextHanlder}></button> */}
         {/* special buttons for testing. delete from production. END */}
         {/* <div className="btns_3_level"> */}
-        {showInput && (
-          <div className="input_subtask_form">
-            <form className="form_subtas_input">
-              <InputText
-                data-testid="input"
-                type="text"
-                value={newTaskName}
-                onChange={(e) => setNewTaskName(e.target.value)}
-                placeholder="Enter Task Name"
-                autoFocus
-              />
-              <div className="btns_for_input">
-                <Button
-                  data-testid="add-subtask-button"
-                  className="add-subtask-button"
-                  // rounded
-                  icon="pi pi-plus-circle"
-                  disabled={subtask.completed}
-                  onClick={addSubTaskHandler}
-                />
-                <Button
-                  data-testid="show-input-button"
-                  className="show-input-button"
-                  // rounded
-                  onClick={showInputHandler}
-                  disabled={subtask.completed}
-                  icon={showInput ? "pi pi-times" : "pi pi-plus-circle"}
-                />
-              </div>
-            </form>
-            <Toast ref={toast} />
-            {/* {emptiness && (
-            <>
-              <Message severity="error" text={"can not be empty"} />
-            </>
-          )} */}
-          </div>
-        )}
         <SpeedDial model={items} direction="left" disabled={showInput} />
         {editDialog && (
           <Dialog
@@ -166,6 +132,47 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
           <SubTaskSq key={subtask.id + 3} subtask={subtask} todo={todo} />
         )}
       </div>
+      {showInput && (
+        <div className="input_subtask_form">
+          <form className="form_subtas_input">
+            <Button
+              data-testid="add-subtask-button"
+              className="add-subtask-button"
+              rounded
+              icon="pi pi-plus-circle"
+              disabled={cantBeEmpty}
+              onClick={addSubTaskHandler}
+            />
+            <InputText
+              className="input_subtask_subtask"
+              data-testid="input"
+              type="text"
+              value={newTaskName}
+              onChange={(e) => setNewTaskName(e.target.value)}
+              placeholder="Enter Task Name"
+              autoFocus
+            />
+            <div className="btns_for_input">
+              <Button
+                data-testid="show-input-button"
+                className="show-input-button"
+                rounded
+                onClick={showInputHandler}
+                disabled={subtask.completed}
+                icon={showInput ? "pi pi-times" : "pi pi-plus-circle"}
+              />
+            </div>
+          </form>
+          <div className="toast-container">
+            <Toast ref={toast} />
+          </div>
+          {/* {emptiness && (
+            <>
+              <Message severity="error" text={"can not be empty"} />
+            </>
+          )} */}
+        </div>
+      )}
     </div>
   );
 };

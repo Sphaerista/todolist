@@ -9,7 +9,7 @@ import { Toast } from "primereact/toast";
 export interface DialogProps {
   visible: boolean;
   visibleOffFunc: () => void;
-  newName?: string;
+  newName: string;
   setNewName: React.Dispatch<React.SetStateAction<string>>;
   sameName?: string;
   header: string;
@@ -84,6 +84,8 @@ const Dialog: React.FC<DialogProps> = /* istanbul ignore next */ (props) => {
   const tagRadioBtn =
     tagPriorityList && selectedPriority && setSelectedPriority;
 
+  const cantBeEmpty = !newName || /^\s*$/.test(newName);
+
   return (
     <>
       {trashDial ? (
@@ -110,7 +112,7 @@ const Dialog: React.FC<DialogProps> = /* istanbul ignore next */ (props) => {
               data-testid="submission_button"
               label={submitButtonLabel}
               onClick={onSubmition}
-              disabled={!newName}
+              disabled={cantBeEmpty}
             />
             {tagRadioBtn && (
               <div className="radioBtnCard">

@@ -39,7 +39,7 @@ const SubTask: React.FC<SubTaskProps> = (props) => {
                   onClick={() => addToggleHandler(subtask.id)}
                 />
                 <div className={subtask.completed ? "text-completed" : "text"}>
-                  {subtask.text} here!
+                  {subtask.text}
                 </div>
               </div>
             </div>
