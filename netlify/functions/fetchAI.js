@@ -9,7 +9,6 @@ const handler = async (req) => {
       body: req.body,
     });
     const responseText = await response.json();
-    console.log(responseText);
 
     return {
       statusCode: 200,

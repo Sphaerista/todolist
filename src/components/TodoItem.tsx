@@ -54,7 +54,6 @@ const TodoItem: React.FC<TodoItemProps> = /* istanbul ignore next */ (
   };
 
   const addTagHandler = (e: any) => {
-    console.log(e);
     e.preventDefault();
     // Check if the new tag name already exists in the list of existing tags
     if (newTagName.length > 0) {

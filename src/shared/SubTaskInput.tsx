@@ -61,7 +61,6 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
 
   const editTextHanlder = (e: any) => {
     e.preventDefault();
-    console.log(subtask.id, newTextName);
     editTodoText(subtask.id, newTextName);
     setVisibleEditTask(false);
     setNewTestkName(newTextName);

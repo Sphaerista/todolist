@@ -16,7 +16,6 @@ const SubTaskSq: React.FC<SubTaskSqProps> = (props) => {
     toggleTodo(id);
   };
   const removeSubTaskHandler = (parentId: number, id: number) => {
-    console.log("comp", parentId, id);
     removeSubtask(parentId, id);
   };
 
