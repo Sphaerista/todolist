@@ -128,7 +128,7 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
         )}
       </div>
       <div className="subtasksq">
-        {todo.subtasks.length > 0 && showSubtasks && (
+        {showSubtasks && (
           <SubTaskSq key={subtask.id + 3} subtask={subtask} todo={todo} />
         )}
       </div>
@@ -166,11 +166,6 @@ const SubTaskInput: React.FC<SubTaskInputProps> = /* istanbul ignore next */ (
           <div className="toast-container">
             <Toast ref={toast} />
           </div>
-          {/* {emptiness && (
-            <>
-              <Message severity="error" text={"can not be empty"} />
-            </>
-          )} */}
         </div>
       )}
     </div>
