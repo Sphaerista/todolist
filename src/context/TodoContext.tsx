@@ -69,7 +69,6 @@ const checkAllSubtasks = /* istanbul ignore next */ (todos: Todo[]): Todo[] => {
       const allSubtasksCompleted = todo.subtasks.every(
         (subtask) => subtask.completed
       );
-      console.log("in func", allSubtasksCompleted);
       return { ...todo, completed: allSubtasksCompleted };
     } else {
       // Otherwise, return the todo unchanged
@@ -340,7 +339,6 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "ADD_SUBTASK", payload: { idSub, subtaskText } });
   };
   const removeSubtask = (parentId: number, removeSubtaskId: number) => {
-    console.log("ctx remove", parentId, removeSubtaskId);
     dispatch({
       type: "REMOVE_SUBTASK",
       payload: { parentId, removeSubtaskId },
