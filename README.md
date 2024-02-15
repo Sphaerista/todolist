@@ -5,7 +5,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/sphaerista/todolist)]()
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCq-Fj5jknLsUf-MWSy4_brA)]()
 
-[Try it out](https://roaring-paletas-13eae2.netlify.app/)
+**[Check it out](https://roaring-paletas-13eae2.netlify.app/)**
 
 ## Tech stack
 
