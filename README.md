@@ -7,7 +7,7 @@
 
 ## App
 
-[![My Skills](netlify)](https://roaring-paletas-13eae2.netlify.app/)
+[![Try it out]()](https://roaring-paletas-13eae2.netlify.app/)
 
 ## Tech stack
 
